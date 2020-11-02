@@ -27,6 +27,7 @@ namespace Convertor
         }
     }
 
+
     public class Convertor
     {
         // return jde number equivalent to the input jde for the material provided to the function.
@@ -45,21 +46,13 @@ namespace Convertor
                 );
 
 
-
                 if (table != null && table.ContainsKey(jdeNumber))
                 {
                     var subTable = table[jdeNumber];
                     var conversionCollection =
                         JsonConvert.DeserializeObject<Dictionary<string, string>>(subTable.ToString());
 
-                    if (conversionCollection.ContainsKey(material))
-                    {
-                        return conversionCollection[material]; // return a jde number
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return conversionCollection.ContainsKey(material) ? conversionCollection[material] : null;
 
                 }
                 else
@@ -83,25 +76,24 @@ namespace Convertor
             public string Filename;
         }
 
+
         public static CadPart GetDetails(
             string jdeNumber,
             string fastenerFilePath
         )
         {
-            var fast = File.ReadAllText(fastenerFilePath);
+            var readAllText = File.ReadAllText(fastenerFilePath);
             var listing = JsonConvert.DeserializeObject<IDictionary<string, object>>(
-                fast, new JsonConverter[] { new MyConverter() }
+                readAllText, new JsonConverter[] { new MyConverter() }
             );
 
-            if (listing != null)
+            // ReSharper disable once InvertIf
+            if (listing != null && listing.ContainsKey(jdeNumber) )
             {
-                bool keyExists = listing.ContainsKey(jdeNumber);
-                if (keyExists)
-                {
                     var n = listing[jdeNumber];
-                    string chair = n.ToString();
+                    var chair = n.ToString();
 
-                    Dictionary<string, string> item = JsonConvert.DeserializeObject<Dictionary<string, string>>(chair);
+                    var item = JsonConvert.DeserializeObject<Dictionary<string, string>>(chair);
 
                     // Create a part to return with the details attached to it.
                     return new CadPart
@@ -111,11 +103,6 @@ namespace Convertor
                         Revision = item["Revision"],
                         Filename = item["Filename"]
                     };
-                }
-                else
-                {
-                    return new CadPart();
-                }
 
             }
 

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using LoadPartsFromTeamcenter;
+using System;
 using System.IO;
-using LoadPartsFromTeamcenter;
 using static System.Console;
 
 // TODO:
@@ -12,26 +12,25 @@ using static System.Console;
 
 namespace PartReplacer
 {
-    class Program
+    internal class Program
     {
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            string __version__ = "0.0.0";
-            string __author__ = "recs";
-            string __update__ = "2020-10-09";
+            const string version = "0.0.0";
+            const string author = "recs";
+            const string update = "2020-10-09";
 
             // Json files where is the information for conversion.
-            string table = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\table.json";
-            string fasteners = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\fasteners.json";
-
+            const string table = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\table.json";
+            const string fasteners = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\fasteners.json";
 
             WriteLine(
-                $@"PartReplacer  --author: {__author__} --version: {__version__} --last-update :{__update__} ");
+                $@"PartReplacer  --author: {author} --version: {version} --last-update :{update} ");
             WriteLine(@"Replace the fasteners in the assembly, press y/[Y] to proceed:");
 
-            string resp = ReadLine()?.ToLower();
-            string answerYes = "y";
+            var resp = ReadLine()?.ToLower();
+            const string answerYes = "y";
             if (resp != answerYes)
             {
                 WriteLine(@"You have exit the application.");
@@ -39,18 +38,16 @@ namespace PartReplacer
             }
             else
             {
-
                 // Connection to Solid edge session.
-                SolidEdgeFramework.Application application = SolidEdgeCommunity.SolidEdgeUtils.Connect(true, true);
-                SolidEdgeAssembly.AssemblyDocument assemblyDocument = (SolidEdgeAssembly.AssemblyDocument)application.ActiveDocument;
+                var application = SolidEdgeCommunity.SolidEdgeUtils.Connect(true, true);
+                var assemblyDocument = (SolidEdgeAssembly.AssemblyDocument)application.ActiveDocument;
 
                 // selection set
-                SolidEdgeFramework.SelectSet selection = assemblyDocument.SelectSet;
+                var selection = assemblyDocument.SelectSet;
 
                 // check if any selection in solidedge.
                 if (selection.Count != 0)
                 {
-
                     Console.WriteLine(selection.Item(1));
                     Console.WriteLine(selection.Item(2));
 
@@ -73,39 +70,42 @@ namespace PartReplacer
                         case "1":
                             material = "imperial zinc";
                             break;
+
                         case "2":
                             material = "metric zinc";
                             break;
+
                         case "3":
                             material = "imperial ss-304";
                             break;
+
                         case "4":
                             material = "metric ss-304";
                             break;
+
                         case "5":
                             material = "imperial ss-316";
                             break;
+
                         case "6":
                             material = "metric ss-316";
                             break;
+
                         default:
                             WriteLine(@"Choose between 1 et 6..."); // TODO: how to stop exit app if no selection made?
                             break;
                     }
 
-
                     WriteLine($@"--Selected items: {selection.Count}");
 
-
-
-                    for (int i = 1; i <= selection.Count; i++)
+                    for (var i = 1; i <= selection.Count; i++)
                     {
                         WriteLine(i);
                         // Loop through items selected in the active assembly.
                         var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-                        string partFullName = occ.OccurrenceFileName;
+                        var partFullName = occ.OccurrenceFileName;
 
-                        string cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
+                        var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
 
                         //Find the part equivalent with the required material in <table.json>.
                         var jdeOccurrence = Cache.GetJde(partFullName);
@@ -113,8 +113,7 @@ namespace PartReplacer
                         var jdeReplacement = Convertor.Convertor.GetConversionFor(jdeOccurrence, material, table);
 
                         // Get details from jde number.
-                        Convertor.Convertor.CadPart part = Convertor.Convertor.GetDetails(jdeReplacement, fasteners);
-
+                        var part = Convertor.Convertor.GetDetails(jdeReplacement, fasteners);
 
                         if (jdeOccurrence != jdeReplacement && jdeReplacement != null) // review this condition and assure that the part is not null.
                         {
@@ -122,7 +121,7 @@ namespace PartReplacer
                             AccessTc.LoadPartToCache(part, cacheDirectory);
 
                             // Replace selected part with new part.
-                            string newPart = Path.Combine(cacheDirectory, part.Filename);
+                            var newPart = Path.Combine(cacheDirectory, part.Filename);
                             occ.Replace(newPart, true);
 
                             // to-do: find a way to display the other options of material with a table.
@@ -132,10 +131,7 @@ namespace PartReplacer
                         {
                             WriteLine(@"Replacement was not performed");
                         }
-
                     }
-
-
                 }
                 else
                 {
@@ -146,5 +142,3 @@ namespace PartReplacer
         }
     }
 }
-
-
