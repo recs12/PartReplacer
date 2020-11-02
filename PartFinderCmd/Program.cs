@@ -4,7 +4,7 @@ using System.IO;
 using static System.Console;
 
 // TODO:
-// 2. anticipate  that method GetDetails return a part empty and skip.
+// 2. anticipate  that method GetDatasetDetailsForPart return a part empty and skip.
 // 3. implement if the bolt is not in the database.
 // 4. reduce the list of selected item and remove duplicate... (all same part are supposed to be replace anyway.)
 // 5. display values of dictionary as information for user...
@@ -110,10 +110,10 @@ namespace PartReplacer
                         //Find the part equivalent with the required material in <table.json>.
                         var jdeOccurrence = Cache.GetJde(partFullName);
 
-                        var jdeReplacement = Convertor.Convertor.GetConversionFor(jdeOccurrence, material, table);
+                        var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material, table);
 
                         // Get details from jde number.
-                        var part = Convertor.Convertor.GetDetails(jdeReplacement, fasteners);
+                        var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
 
                         if (jdeOccurrence != jdeReplacement && jdeReplacement != null) // review this condition and assure that the part is not null.
                         {

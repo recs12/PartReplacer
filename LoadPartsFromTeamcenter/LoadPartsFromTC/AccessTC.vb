@@ -1,12 +1,11 @@
 ﻿Imports System.Runtime.InteropServices
 
-
 Public Class AccessTc
 
     Public Shared Acronym As String = Environment.GetEnvironmentVariable("USERPROFILE").ToLower()
 
 
-    Public Shared Sub LoadPartToCache(ByVal file As Convertor.Convertor.CadPart, ByVal cachePath As String)
+    Public Shared Sub LoadPartToCache(ByVal file As Convertor.CadPart, ByVal cachePath As String)
 
         Dim application As SolidEdgeFramework.Application
         Dim solidEdgeTce As SolidEdgeFramework.SolidEdgeTCE
