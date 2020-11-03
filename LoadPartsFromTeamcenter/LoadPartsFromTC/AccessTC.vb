@@ -24,7 +24,6 @@ Public Class AccessTc
 
         ' Get default cache path
         solidEdgeTce.GetPDMCachePath(cachePath)
-        Console.WriteLine(cachePath)
 
         'Specify Server Credentials
         userName = Acronym

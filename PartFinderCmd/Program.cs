@@ -4,11 +4,12 @@ using System.IO;
 using static System.Console;
 
 // TODO:
-// 2. anticipate  that method GetDatasetDetailsForPart return a part empty and skip.
 // 3. implement if the bolt is not in the database.
 // 4. reduce the list of selected item and remove duplicate... (all same part are supposed to be replace anyway.)
 // 5. display values of dictionary as information for user...
 // 6. Check if no multi session of TC opened in task manager...
+// 7. Check if part subassembly
+// 8. Check if part ReferenceOnly
 
 namespace PartReplacer
 {
@@ -46,10 +47,9 @@ namespace PartReplacer
                 var selection = assemblyDocument.SelectSet;
 
                 // check if any selection in solidedge.
+                WriteLine($@"Quantity item selected: {selection.Count}");
                 if (selection.Count != 0)
                 {
-                    Console.WriteLine(selection.Item(1));
-                    Console.WriteLine(selection.Item(2));
 
                     // Command line.
                     WriteLine(@"");
@@ -59,8 +59,8 @@ namespace PartReplacer
                     WriteLine(@"	4) metric ss-304");
                     WriteLine(@"	5) imperial ss-316");
                     WriteLine(@"	6) metric ss-316");
-                    WriteLine("");
-                    WriteLine(@" Select material by pressing those keys [1,2,3,4,5,6]... ");
+                    WriteLine(@"");
+                    WriteLine(@"Select material by pressing keys [1,2,3,4,5,6]");
 
                     var materialChoice = ReadLine();
 
@@ -96,49 +96,65 @@ namespace PartReplacer
                             break;
                     }
 
-                    WriteLine($@"--Selected items: {selection.Count}");
 
-                    for (var i = 1; i <= selection.Count; i++)
+                    try
                     {
-                        WriteLine(i);
-                        // Loop through items selected in the active assembly.
-                        var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-                        var partFullName = occ.OccurrenceFileName;
-
-                        var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
-
-                        //Find the part equivalent with the required material in <table.json>.
-                        var jdeOccurrence = Cache.GetJde(partFullName);
-
-                        var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material, table);
-
-                        // Get details from jde number.
-                        var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
-
-                        if (jdeOccurrence != jdeReplacement && jdeReplacement != null) // review this condition and assure that the part is not null.
+                        for (var i = 1; i <= selection.Count; i++)
                         {
-                            // Load new part in Solid edge cache.
-                            AccessTc.LoadPartToCache(part, cacheDirectory);
+                            // Loop through items selected in the active assembly.
+                            var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
 
-                            // Replace selected part with new part.
-                            var newPart = Path.Combine(cacheDirectory, part.Filename);
-                            occ.Replace(newPart, true);
+                            if (occ.Subassembly == false)
+                            {
+                                var partFullName = occ.OccurrenceFileName;
 
-                            // to-do: find a way to display the other options of material with a table.
-                            WriteLine(@"Replace {0} by {1}", jdeOccurrence, jdeReplacement);
+                                var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
+
+                                //Find the part equivalent with the required material in <table.json>.
+                                var jdeOccurrence = Cache.GetJde(partFullName);
+
+                                var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material, table);
+
+                                // Get details from jde number.
+                                var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
+
+                                if (part.Jde != null && part.Jde != jdeOccurrence) // review this condition and assure that the part is not null.
+                                {
+                                    // Load new part in Solid edge cache.
+                                    AccessTc.LoadPartToCache(part, cacheDirectory);
+                                    Console.WriteLine($@"{part.Jde} loaded in your cache");
+
+                                    // Replace selected part with new part.
+                                    var newPart = Path.Combine(cacheDirectory, part.Filename);
+                                    occ.Replace(newPart, true);
+
+                                    // to-do: find a way to display the other options of material with a table.
+                                    WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
+                                }
+                                else
+                                {
+                                    WriteLine($@"Replacement not performed ({part.Jde})->(=)");
+                                }
+                            }
+                            else
+                            {
+                                WriteLine(@"Replacement not performed (.)->() (SubAssembly)");
+                            }
                         }
-                        else
-                        {
-                            WriteLine(@"Replacement was not performed");
-                        }
+                    }
+                    finally
+                    {
+                        WriteLine(@"exit");
+                        ReadKey();
                     }
                 }
                 else
                 {
-                    WriteLine(@"No active selection, select items you want to replace then run the macro again.");
+                    WriteLine(@"No active selection: Select some items before running the macro again.");
                     ReadKey();
                 }
             }
+
         }
     }
 }
