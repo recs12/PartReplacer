@@ -18,9 +18,9 @@ namespace PartReplacer
         [STAThread]
         private static void Main()
         {
-            const string version = "0.0.0";
+            const string version = "0.0.1";
             const string author = "recs";
-            const string update = "2020-10-09";
+            const string update = "2020-11-04";
 
             // Json files where is the information for conversion.
             const string table = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\table.json";
@@ -53,12 +53,12 @@ namespace PartReplacer
 
                     // Command line.
                     WriteLine(@"");
-                    WriteLine(@"	1) imperial zinc");
-                    WriteLine(@"	2) metric zinc");
-                    WriteLine(@"	3) imperial ss-304");
-                    WriteLine(@"	4) metric ss-304");
-                    WriteLine(@"	5) imperial ss-316");
-                    WriteLine(@"	6) metric ss-316");
+                    WriteLine(@"1) imperial zinc");
+                    WriteLine(@"2) metric zinc");
+                    WriteLine(@"3) imperial ss-304");
+                    WriteLine(@"4) metric ss-304");
+                    WriteLine(@"5) imperial ss-316");
+                    WriteLine(@"6) metric ss-316");
                     WriteLine(@"");
                     WriteLine(@"Select material by pressing keys [1,2,3,4,5,6]");
 
