@@ -1,5 +1,6 @@
 ﻿using LoadPartsFromTeamcenter;
 using System;
+using SolidEdgeFramework;
 using System.IO;
 using static System.Console;
 
@@ -53,12 +54,12 @@ namespace PartReplacer
 
                     // Command line.
                     WriteLine(@"");
-                    WriteLine(@"	1) imperial zinc");
-                    WriteLine(@"	2) metric zinc");
-                    WriteLine(@"	3) imperial ss-304");
-                    WriteLine(@"	4) metric ss-304");
-                    WriteLine(@"	5) imperial ss-316");
-                    WriteLine(@"	6) metric ss-316");
+                    WriteLine(@"1) imperial zinc");
+                    WriteLine(@"2) metric zinc");
+                    WriteLine(@"3) imperial ss-304");
+                    WriteLine(@"4) metric ss-304");
+                    WriteLine(@"5) imperial ss-316");
+                    WriteLine(@"6) metric ss-316");
                     WriteLine(@"");
                     WriteLine(@"Select material by pressing keys [1,2,3,4,5,6]");
 
@@ -102,7 +103,7 @@ namespace PartReplacer
                         for (var i = 1; i <= selection.Count; i++)
                         {
                             // Loop through items selected in the active assembly.
-                            var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
+                            SolidEdgeAssembly.Occurrence occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
 
                             if (occ.Subassembly == false)
                             {

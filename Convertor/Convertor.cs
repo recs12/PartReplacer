@@ -30,6 +30,13 @@ namespace Convertor
                     var conversionCollection =
                         JsonConvert.DeserializeObject<Dictionary<string, string>>(subTable.ToString());
 
+                    foreach (KeyValuePair<string, string> entry in conversionCollection)
+                    {
+                        //do something with entry.Value or entry.Key
+                        Console.WriteLine(entry.Key);
+                        Console.WriteLine(entry.Value);
+                    }
+
                     return conversionCollection.ContainsKey(material) ? conversionCollection[material] : null;
 
                 }
@@ -58,21 +65,21 @@ namespace Convertor
             );
 
             // ReSharper disable once InvertIf
-            if (listing != null && listing.ContainsKey(jdeNumber) )
+            if (listing != null && listing.ContainsKey(jdeNumber))
             {
-                    var n = listing[jdeNumber];
-                    var chair = n.ToString();
+                var n = listing[jdeNumber];
+                var chair = n.ToString();
 
-                    var item = JsonConvert.DeserializeObject<Dictionary<string, string>>(chair);
+                var item = JsonConvert.DeserializeObject<Dictionary<string, string>>(chair);
 
-                    // Create a part to return with the details attached to it.
-                    return new CadPart
-                    {
-                        // attributes of the part
-                        Jde = item["JdeNumber"],
-                        Revision = item["Revision"],
-                        Filename = item["Filename"]
-                    };
+                // Create a part to return with the details attached to it.
+                return new CadPart
+                {
+                    // attributes of the part
+                    Jde = item["JdeNumber"],
+                    Revision = item["Revision"],
+                    Filename = item["Filename"]
+                };
 
             }
 
