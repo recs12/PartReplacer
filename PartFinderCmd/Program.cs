@@ -131,6 +131,7 @@ namespace PartReplacer
 
                                     // to-do: find a way to display the other options of material with a table.
                                     WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
+                                    Console.WriteLine("---");
                                 }
                                 else
                                 {
