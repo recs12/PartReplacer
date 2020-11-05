@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.InteropServices
 
+'// check if the part is already in cache before downloaded it
 Public Class AccessTc
 
     Public Shared Acronym As String = Environment.GetEnvironmentVariable("USERPROFILE").ToLower()

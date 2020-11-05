@@ -1,5 +1,6 @@
 ﻿using LoadPartsFromTeamcenter;
 using System;
+using SolidEdgeFramework;
 using System.IO;
 using static System.Console;
 
@@ -102,7 +103,7 @@ namespace PartReplacer
                         for (var i = 1; i <= selection.Count; i++)
                         {
                             // Loop through items selected in the active assembly.
-                            var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
+                            SolidEdgeAssembly.Occurrence occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
 
                             if (occ.Subassembly == false)
                             {
@@ -130,6 +131,7 @@ namespace PartReplacer
 
                                     // to-do: find a way to display the other options of material with a table.
                                     WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
+                                    Console.WriteLine("---");
                                 }
                                 else
                                 {
