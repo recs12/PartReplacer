@@ -31,7 +31,7 @@ namespace Convertor
                         JsonConvert.DeserializeObject<Dictionary<string, string>>(subTable.ToString());
 
                     Console.WriteLine("...");
-                    Console.WriteLine(jdeNumber + ":");
+                    Console.WriteLine("match {0} with", jdeNumber);
                     var i = 0;
                     foreach (KeyValuePair<string, string> entry in conversionCollection)
                     {

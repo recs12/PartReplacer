@@ -23,15 +23,15 @@ namespace PartReplacer
             const string update = "2020-11-04";
 
             // Json files where is the information for conversion.
-            const string table = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\table.json";
-            const string fasteners = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFasteners\fasteners.json";
+            const string table = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFastenersJson\table.json";
+            const string fasteners = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFastenersJson\fasteners.json";
 
             WriteLine(
                 $@"PartReplacer  --author: {author} --version: {version} --last-update :{update} ");
             WriteLine(@"Replace the fasteners in the assembly, press y/[Y] to proceed:");
 
             var resp = ReadLine()?.ToLower();
-            const string answerYes = "y";
+            const string answerYes = "y"; // option ?
             if (resp != answerYes)
             {
                 WriteLine(@"You have exit the application.");
@@ -121,16 +121,22 @@ namespace PartReplacer
                                 if (part.Jde != null && part.Jde != jdeOccurrence) // review this condition and assure that the part is not null.
                                 {
                                     // Load new part in Solid edge cache.
-                                    AccessTc.LoadPartToCache(part, cacheDirectory);
-                                    Console.WriteLine($@"{part.Jde} loaded in your cache");
 
-                                    // Replace selected part with new part.
-                                    var newPart = Path.Combine(cacheDirectory, part.Filename);
-                                    occ.Replace(newPart, true);
+                                    if ((bool) AccessTc.GetUserTcMode())
+                                    {
+                                        AccessTc.LoadPartToCache(part, cacheDirectory);
 
-                                    // to-do: find a way to display the other options of material with a table.
-                                    WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
-                                    Console.WriteLine("---");
+                                        // Replace selected part with new part.
+                                        var newPart = Path.Combine(cacheDirectory, part.Filename);
+                                        occ.Replace(newPart, true);
+                                        WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine(@"[!] Unable to load the part because you are not connected to Teamcenter.");
+                                        Console.WriteLine(@"Connect to teamcenter before running this macro.");
+                                    }
+                                    Console.WriteLine(@"---");
                                 }
                                 else
                                 {

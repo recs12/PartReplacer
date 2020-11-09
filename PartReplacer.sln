@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartReplacer", "PartFinderC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Convertor", "Convertor\Convertor.csproj", "{B207E718-4D12-4305-840F-8B18F45D082E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConvertorDataManagement", "ConvertorDataManagement\ConvertorDataManagement.fsproj", "{5306CA39-BBCF-4718-9202-67D73052C7DD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{B207E718-4D12-4305-840F-8B18F45D082E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B207E718-4D12-4305-840F-8B18F45D082E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B207E718-4D12-4305-840F-8B18F45D082E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5306CA39-BBCF-4718-9202-67D73052C7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5306CA39-BBCF-4718-9202-67D73052C7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5306CA39-BBCF-4718-9202-67D73052C7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5306CA39-BBCF-4718-9202-67D73052C7DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
