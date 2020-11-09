@@ -1,6 +1,5 @@
 ﻿using LoadPartsFromTeamcenter;
 using System;
-using SolidEdgeFramework;
 using System.IO;
 using static System.Console;
 
@@ -131,7 +130,7 @@ namespace PartReplacer
 
                                     // to-do: find a way to display the other options of material with a table.
                                     WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
-                                    Console.WriteLine(@"...");
+                                    Console.WriteLine("---");
                                 }
                                 else
                                 {
