@@ -1,6 +1,4 @@
-﻿using LoadPartsFromTeamcenter;
-using System;
-using System.IO;
+﻿using System;
 using static System.Console;
 
 // TODO:
@@ -50,17 +48,17 @@ namespace PartReplacer
                 WriteLine($@"Quantity item selected: {selection.Count}");
                 if (selection.Count != 0)
                 {
-
+                    WriteLine(@"");
+                    string[] options = { "imperial zinc", "metric zinc", "imperial ss-304", "metric ss-304", "imperial ss-316", "metric ss-316" };
                     // Command line.
+                    var j = 0;
+                    foreach (var option in options)
+                    {
+                        j++;
+                        WriteLine(@" [{0}] - {1}",j,option);
+                    }
                     WriteLine(@"");
-                    WriteLine(@"1) imperial zinc");
-                    WriteLine(@"2) metric zinc");
-                    WriteLine(@"3) imperial ss-304");
-                    WriteLine(@"4) metric ss-304");
-                    WriteLine(@"5) imperial ss-316");
-                    WriteLine(@"6) metric ss-316");
-                    WriteLine(@"");
-                    WriteLine(@"Select material by pressing keys [1,2,3,4,5,6]");
+                    WriteLine(@"Select material with keys [1,2,3,4,5,6] or press ? if you would like to check the current conversion table.");
 
                     var materialChoice = ReadLine();
 
@@ -91,6 +89,10 @@ namespace PartReplacer
                             material = "metric ss-316";
                             break;
 
+                        case "?":
+                            material = "?";
+                            break;
+
                         default:
                             WriteLine(@"Choose between 1 et 6..."); // TODO: how to stop exit app if no selection made?
                             break;
@@ -102,56 +104,13 @@ namespace PartReplacer
                         for (var i = 1; i <= selection.Count; i++)
                         {
                             // Loop through items selected in the active assembly.
-                            SolidEdgeAssembly.Occurrence occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-
-                            if (occ.Subassembly == false)
-                            {
-                                var partFullName = occ.OccurrenceFileName;
-
-                                var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
-
-                                //Find the part equivalent with the required material in <table.json>.
-                                var jdeOccurrence = Cache.GetJde(partFullName);
-
-                                var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material, table);
-
-                                // Get details from jde number.
-                                var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
-
-                                if (part.Jde != null && part.Jde != jdeOccurrence) // review this condition and assure that the part is not null.
-                                {
-                                    // Load new part in Solid edge cache.
-
-                                    if ((bool) AccessTc.GetUserTcMode())
-                                    {
-                                        AccessTc.LoadPartToCache(part, cacheDirectory);
-
-                                        // Replace selected part with new part.
-                                        var newPart = Path.Combine(cacheDirectory, part.Filename);
-                                        occ.Replace(newPart, true);
-                                        WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine(@"[!] Unable to load the part because you are not connected to Teamcenter.");
-                                        Console.WriteLine(@"Connect to teamcenter before running this macro.");
-                                    }
-                                    Console.WriteLine(@"---");
-                                }
-                                else
-                                {
-                                    WriteLine($@"Replacement not performed ({part.Jde})->(=)");
-                                }
-                            }
-                            else
-                            {
-                                WriteLine(@"Replacement not performed (.)->() (SubAssembly)");
-                            }
+                            var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
+                            Replace.Part(occ, material, table, fasteners);
                         }
                     }
                     finally
                     {
-                        WriteLine(@"exit");
+                        WriteLine(@"Exit");
                         ReadKey();
                     }
                 }
