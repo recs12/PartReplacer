@@ -3,7 +3,6 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.FileIO
 
 
-'// check if the part is already in cache before downloaded it
 Public Class AccessTc
 
     Public Shared Acronym As String = Environment.GetEnvironmentVariable("USERPROFILE").ToLower()
