@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Console;
 
+
 // TODO:
 // 3. implement if the bolt is not in the database.
 // 4. reduce the list of selected item and remove duplicate... (all same part are supposed to be replace anyway.)
@@ -12,24 +13,17 @@ using static System.Console;
 namespace PartReplacer
 {
     internal class Program
+
     {
         [STAThread]
         private static void Main()
         {
-            const string version = "0.0.1";
-            const string author = "recs";
-            const string update = "2020-11-04";
 
-            // Json files where is the information for conversion.
-            const string table = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFastenersJson\table.json";
-            const string fasteners = @"J:\PTCR\Users\RECS\Macros\Replacer\dataFastenersJson\fasteners.json";
-
-            WriteLine(
-                $@"PartReplacer  --author: {author} --version: {version} --last-update :{update} ");
-            WriteLine(@"Replace the fasteners in the assembly, press y/[Y] to proceed:");
+            Utilities.displayDetails(Utilities.author, Utilities.version, Utilities.update);
+            _ = Utilities.question;
 
             var resp = ReadLine()?.ToLower();
-            const string answerYes = "y"; // option ?
+            const string answerYes = "y";
             if (resp != answerYes)
             {
                 WriteLine(@"You have exit the application.");
@@ -48,17 +42,9 @@ namespace PartReplacer
                 WriteLine($@"Quantity item selected: {selection.Count}");
                 if (selection.Count != 0)
                 {
-                    WriteLine(@"");
-                    string[] options = { "imperial zinc", "metric zinc", "imperial ss-304", "metric ss-304", "imperial ss-316", "metric ss-316" };
-                    // Command line.
-                    var j = 0;
-                    foreach (var option in options)
-                    {
-                        j++;
-                        WriteLine(@" [{0}] - {1}",j,option);
-                    }
-                    WriteLine(@"");
-                    WriteLine(@"Select material with keys [1,2,3,4,5,6] or press ? if you would like to check the current conversion table.");
+
+
+                    _ = Utilities.displayOptions;
 
                     var materialChoice = ReadLine();
 
@@ -94,7 +80,7 @@ namespace PartReplacer
                             break;
 
                         default:
-                            WriteLine(@"Choose between 1 et 6..."); // TODO: how to stop exit app if no selection made?
+                            WriteLine(@"Choose between 1 et 6...");
                             break;
                     }
 
@@ -105,7 +91,7 @@ namespace PartReplacer
                         {
                             // Loop through items selected in the active assembly.
                             var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-                            Replace.Part(occ, material, table, fasteners);
+                            Replace.Part(occ, material, Utilities.tablePath, Utilities.fastenersPath);
                         }
                     }
                     finally

@@ -1,6 +1,5 @@
 ﻿using System;
 using LoadPartsFromTeamcenter;
-using SolidEdgeFrameworkSupport;
 using static System.Console;
 using Path = System.IO.Path;
 
