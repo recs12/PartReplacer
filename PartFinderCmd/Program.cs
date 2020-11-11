@@ -44,7 +44,7 @@ namespace PartReplacer
                 {
 
 
-                    Utilities.displayOptions(Utilities.options);
+                    _ = Utilities.displayOptions;
 
                     var materialChoice = ReadLine();
 

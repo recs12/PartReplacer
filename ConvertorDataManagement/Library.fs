@@ -11,13 +11,18 @@ module Utilities
     let displayDetails author version update =
         printfn "PartReplacer  --author:%s --version:%s --last-update :%s" author version update
 
-    let options : list<string> = [ "imperial zinc"; "metric zinc"; "imperial ss-304"; "metric ss-304"; "imperial ss-316"; "metric ss-316" ]
 
-    let printOptionLine x = printfn """[.] %s -""" x
+    let zip s1 s2 = List.zip s1 s2 |> List.ofSeq
 
-    let displayOptions sx =
+    let printOptionLine x = printfn """[%i] %s -""" (fst x) (snd x)
+
+    let displayOptions =
+        let material : list<string> = [ "imperial zinc"; "metric zinc"; "imperial ss-304"; "metric ss-304"; "imperial ss-316"; "metric ss-316" ]
         let indexer = [1 .. 6]
+        printfn ""
+        let sx = zip indexer material
         sx
         |> List.iter printOptionLine
+        printfn ""
         0
 
