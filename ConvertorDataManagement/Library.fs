@@ -11,6 +11,9 @@ module Utilities
     let displayDetails author version update =
         printfn "PartReplacer  --author:%s --version:%s --last-update :%s" author version update
 
+    let question =
+        printfn @"Would you like to replace the fasteners in this assembly ?"
+        printfn @"Select the items you want to change and press y/[Y] to proceed:"
 
     let zip s1 s2 = List.zip s1 s2 |> List.ofSeq
 
@@ -24,5 +27,7 @@ module Utilities
         sx
         |> List.iter printOptionLine
         printfn ""
+        printfn @"Select material with keys [1,2,3,4,5,6] or press ?"
+        printfn @"if you would like to check the current conversion table."
         0
 

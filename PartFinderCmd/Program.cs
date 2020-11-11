@@ -20,7 +20,7 @@ namespace PartReplacer
         {
 
             Utilities.displayDetails(Utilities.author, Utilities.version, Utilities.update);
-            WriteLine(@"Replace the fasteners in the assembly, press y/[Y] to proceed:");
+            _ = Utilities.question;
 
             var resp = ReadLine()?.ToLower();
             const string answerYes = "y";
