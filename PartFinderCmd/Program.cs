@@ -1,6 +1,6 @@
 ﻿using System;
 using static System.Console;
-
+using Helpers;
 
 // TODO:
 // 3. implement if the bolt is not in the database.
@@ -19,8 +19,7 @@ namespace PartReplacer
         private static void Main()
         {
 
-            Utilities.displayDetails(Utilities.author, Utilities.version, Utilities.update);
-            _ = Utilities.question;
+            User.displayDetails(User.author, User.version, User.update);
 
             var resp = ReadLine()?.ToLower();
             const string answerYes = "y";
