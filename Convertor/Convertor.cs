@@ -36,11 +36,7 @@ namespace Convertor
                     foreach (KeyValuePair<string, string> entry in conversionCollection)
                     {
                         i++;
-                        Console.WriteLine(string.Format(Format,
-                                                        i,
-                                                        entry.Key == material ? ">" : " ",
-                                                        entry.Key,
-                                                        entry.Value != jdeNumber ? entry.Value : "(=)"));
+                        Console.WriteLine(Format, i, entry.Key == material ? ">" : " ", entry.Key, entry.Value != jdeNumber ? entry.Value : "(=)");
                     }
 
                     return conversionCollection.ContainsKey(material) ? conversionCollection[material] : null;
