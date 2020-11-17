@@ -55,7 +55,7 @@ namespace Convertor
             }
         }
 
-        public static CadPart GetDatasetDetailsForPart(
+        public static Tuple<string, string, string> GetDatasetDetailsForPart(
             string jdeNumber,
             string fastenerFilePath
         )
@@ -74,13 +74,8 @@ namespace Convertor
                 var item = JsonConvert.DeserializeObject<Dictionary<string, string>>(chair);
 
                 // Create a part to return with the details attached to it.
-                return new CadPart
-                {
-                    // attributes of the part
-                    Jde = item["JdeNumber"],
-                    Revision = item["Revision"],
-                    Filename = item["Filename"]
-                };
+                var tuple = new Tuple<string, string, string>(item["JdeNumber"], item["Revision"], item["Filename"]);
+                return tuple;
             }
             else
             {
@@ -88,7 +83,8 @@ namespace Convertor
                     $@"does not contain {jdeNumber}\n" +
                     "To fix it, you can edit and add the missing data in the file fasteners.json \n" // add a sample of what to add
                  );
-                return new CadPart();
+                var tuple = new Tuple<string, string, string>("", "", "");
+                return tuple;
             }
         }
     }

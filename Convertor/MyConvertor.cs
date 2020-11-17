@@ -26,10 +26,4 @@ namespace Convertor
             return serializer.Deserialize(reader);
         }
     }
-    public struct CadPart
-    {
-        public string Jde;
-        public string Revision;
-        public string Filename;
-    }
 }

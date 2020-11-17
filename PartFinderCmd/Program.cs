@@ -69,7 +69,7 @@ namespace PartReplacer
                 }
                 else
                 {
-                    WriteLine(@"No active selection: Select some items before running the macro again.");
+                    WriteLine(@"[!] No active selection: Select some items before running the macro again.");
                     ReadKey();
                 }
             }

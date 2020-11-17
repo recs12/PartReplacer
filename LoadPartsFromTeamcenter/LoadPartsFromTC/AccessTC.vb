@@ -22,7 +22,12 @@ Public Class AccessTc
         Return bTeamCenterMode
     End Function
 
-    Public Shared Sub LoadPartToCache(ByVal file As Convertor.CadPart, ByVal cachePath As String)
+    Public Shared Sub LoadPartToCache(
+                                      ByVal jde As String,
+                                      ByVal revision As String,
+                                      ByVal filename As String,
+                                      ByVal cachePath As String
+                                      )
 
         Dim application As SolidEdgeFramework.Application
         Dim solidEdgeTce As SolidEdgeFramework.SolidEdgeTCE
@@ -54,11 +59,11 @@ Public Class AccessTc
 
         'Download the file to cache
         Dim fileInCache As String
-        fileInCache = Path.Combine(cachePath, file.Filename)
+        fileInCache = Path.Combine(cachePath, filename)
         If FileSystem.FileExists(fileInCache) Then
             Console.WriteLine("File found in your cache.")
         Else
-            solidEdgeTce.DownladDocumentsFromServerWithOptions(file.Jde, file.Revision, file.Filename,
+            solidEdgeTce.DownladDocumentsFromServerWithOptions(jde, revision, filename,
                                                            SolidEdgeConstants.RevisionRuleType.LatestRevision, "", True,
                                                            False, SolidEdgeConstants.TCDownloadOptions.COImplicit, temp)
             Console.WriteLine("File loaded in your cache.")

@@ -27,16 +27,21 @@ namespace PartReplacer
                 // Get details from jde number.
                 var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
 
-                if (part.Jde != null && part.Jde != jdeOccurrence) // review this condition and assure that the part is not null.
+                var jde = part.Item1;
+                var revision = part.Item2;
+                var filename = part.Item3;
+
+
+                if (jde != null && jde != jdeOccurrence) // review this condition and assure that the part is not null.
                 {
                     // Load new part in Solid edge cache.
 
                     if ((bool)AccessTc.GetUserTcMode())
                     {
-                        AccessTc.LoadPartToCache(part, cacheDirectory);
+                        AccessTc.LoadPartToCache(jde, revision, filename, cacheDirectory);
 
                         // Replace selected part with new part.
-                        var newPart = Path.Combine(cacheDirectory, part.Filename);
+                        var newPart = Path.Combine(cacheDirectory, filename);
                         occ.Replace(newPart, true);
                         WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
                     }
@@ -49,7 +54,7 @@ namespace PartReplacer
                 }
                 else
                 {
-                    WriteLine($@"Replacement not performed ({part.Jde})->(=)");
+                    WriteLine($@"Replacement not performed ({jde})->(=)");
                 }
             }
             else
