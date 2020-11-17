@@ -4,7 +4,6 @@ using Helpers;
 
 // TODO:
 // 3. implement if the bolt is not in the database.
-// 4. reduce the list of selected item and remove duplicate... (all same part are supposed to be replace anyway.)
 // 6. Check if no multi session of TC opened in task manager...
 
 
