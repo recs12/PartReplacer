@@ -7,7 +7,7 @@ namespace PartReplacer
 {
     class Replace
     {
-        public static void Part(SolidEdgeAssembly.Occurrence occ, string material, string table, string fasteners)
+        public static void Part(SolidEdgeAssembly.Occurrence occ, string material)
         {
 
             if (occ.Subassembly == false)
@@ -20,16 +20,15 @@ namespace PartReplacer
                 //Find the part equivalent with the required material in <table.json>.
                 var jdeOccurrence = Cache.GetJde(partFullName);
 
-                var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material, table);
+                var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material);
 
                 if (material == "?") return;  // No conversion, the user just check the values in table.
 
                 // Get details from jde number.
-                var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
+                //var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);                //var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
+                var part = Helpers.Fasteners.getReplacementPartDetails(jdeReplacement);
 
-                var jde = part.Item1;
-                var revision = part.Item2;
-                var filename = part.Item3;
+                var jde = part.Item1; var revision = part.Item2; var filename = part.Item3;
 
 
                 if (jde != null && jde != jdeOccurrence) // review this condition and assure that the part is not null.
@@ -43,7 +42,7 @@ namespace PartReplacer
                         // Replace selected part with new part.
                         var newPart = Path.Combine(cacheDirectory, filename);
                         occ.Replace(newPart, true);
-                        WriteLine(@"Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
+                        WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
                     }
                     else
                     {
@@ -54,12 +53,12 @@ namespace PartReplacer
                 }
                 else
                 {
-                    WriteLine($@"Replacement not performed ({jde})->(=)");
+                    WriteLine($@"[-] Replacement not performed ({jde})->(=)");
                 }
             }
             else
             {
-                WriteLine(@"Replacement not performed (.)->() (SubAssembly)");
+                WriteLine(@"[-] Replacement not performed (.)->() (SubAssembly)");
             }
         }
     }

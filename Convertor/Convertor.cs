@@ -12,12 +12,12 @@ namespace Convertor
         // return jde number equivalent to the input jde for the material provided to the function.
         public static string GetConversionFromTable(
             string jdeNumber,
-            string material,
-            string tableFilePath
+            string material
         )
         {
             try
             {
+                var tableFilePath = @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json";
                 var json = File.ReadAllText(tableFilePath); // json table query
 
                 var table = JsonConvert.DeserializeObject<IDictionary<string, object>>(

@@ -2,6 +2,7 @@
 namespace Helpers
 
 open System
+open FSharp.Json
 
 module User =
 
@@ -17,9 +18,6 @@ module User =
         0
 
 module Utilities =
-
-    let tablePath : string = @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json"
-    let fastenersPath : string = @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.json"
 
     let zip s1 s2 = List.zip s1 s2 |> List.ofSeq
 
@@ -55,3 +53,35 @@ module Switcher =
         let response:string = Console.ReadLine()
         let material =  switcher response
         material
+
+module Fasteners =
+
+    let Inputfilename : string = @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners2.json"
+
+    type FastenerDetails = {
+            JdeNumber: string
+            Revision: string
+            Filename: string
+    }
+
+    type ItemCollection = FastenerDetails list
+
+    let getReplacementPartDetails jdeNumber =
+
+        let json :string = System.IO.File.ReadAllText(Inputfilename)
+
+        let deserialized: ItemCollection = Json.deserialize<ItemCollection> json
+
+        let matching x =
+            match x with
+                | Some item -> (item.JdeNumber, item.Revision, item.Filename)
+                | None -> ("","","")
+
+        let searchDetails (collectionsPart: ItemCollection) (jdeNum: string) =
+            collectionsPart
+                |> List.tryFind (fun j -> j.JdeNumber = jdeNum)
+                |> matching
+
+        let item = searchDetails deserialized jdeNumber
+
+        item

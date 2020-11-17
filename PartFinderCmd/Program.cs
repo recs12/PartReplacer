@@ -2,9 +2,7 @@
 using static System.Console;
 using Helpers;
 
-// TODO:
-// 3. implement if the bolt is not in the database.
-// 6. Check if no multi session of TC opened in task manager...
+// 6. Check wrong password
 
 
 namespace PartReplacer
@@ -52,7 +50,7 @@ namespace PartReplacer
                             {
                                 // Loop through items selected in the active assembly.
                                 var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-                                Replace.Part(occ, material, Utilities.tablePath, Utilities.fastenersPath);
+                                Replace.Part(occ, material);
                             }
                             catch (InvalidCastException)
                             {
@@ -62,7 +60,7 @@ namespace PartReplacer
                     }
                     finally
                     {
-                        WriteLine(@"Exit");
+                        WriteLine(@"Exit 0");
                         ReadKey();
                     }
                 }
