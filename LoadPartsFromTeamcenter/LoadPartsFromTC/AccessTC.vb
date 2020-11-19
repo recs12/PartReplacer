@@ -22,12 +22,13 @@ Public Class AccessTc
         Return bTeamCenterMode
     End Function
 
+
     Public Shared Sub LoadPartToCache(
-                                      ByVal jde As String,
-                                      ByVal revision As String,
-                                      ByVal filename As String,
-                                      ByVal cachePath As String
-                                      )
+        ByVal jde As String,
+        ByVal revision As String,
+        ByVal filename As String,
+        ByVal cachePath As String
+        )
 
         Dim application As SolidEdgeFramework.Application
         Dim solidEdgeTce As SolidEdgeFramework.SolidEdgeTCE
@@ -48,19 +49,12 @@ Public Class AccessTc
         fileInCache = Path.Combine(cachePath, filename)
         If FileSystem.FileExists(fileInCache) Then
             Console.WriteLine("File found in your cache.")
-
-            If GetUserTcMode() Then
-                solidEdgeTce.DownladDocumentsFromServerWithOptions(jde, revision, filename,
-                                                        SolidEdgeConstants.RevisionRuleType.LatestRevision, "", True,
-                                                        False, SolidEdgeConstants.TCDownloadOptions.COImplicit, temp)
-                Console.WriteLine("File loaded in your cache.")
-            Else
-                Console.WriteLine("Your are not logged to Teamcenter. Please Login before running the macro.")
-            End If
+        Else
+            solidEdgeTce.DownladDocumentsFromServerWithOptions(jde, revision, filename,
+                                                    SolidEdgeConstants.RevisionRuleType.LatestRevision, "", True,
+                                                    False, SolidEdgeConstants.TCDownloadOptions.COImplicit, temp)
         End If
 
-
     End Sub
-
 
 End Class

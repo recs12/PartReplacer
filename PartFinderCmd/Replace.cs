@@ -45,7 +45,7 @@ namespace PartReplacer
                 }
                 else
                 {
-                    Console.WriteLine($@"[!] Replacement not performed, check if you are connected to Teamcenter.");
+                    Console.WriteLine($@"[!] Replacement part was not loaded in your cache, check if you are connected to Teamcenter.");
                 }
             }
             else
