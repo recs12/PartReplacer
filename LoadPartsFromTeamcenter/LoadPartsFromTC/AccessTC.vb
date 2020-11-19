@@ -31,11 +31,6 @@ Public Class AccessTc
 
         Dim application As SolidEdgeFramework.Application
         Dim solidEdgeTce As SolidEdgeFramework.SolidEdgeTCE
-        Dim userName As String
-        Dim password As String
-        Dim group As String
-        Dim role As String
-        Dim url As String
         Dim temp(0, 0) As Object
 
         'Get Active session of Solid Edge
@@ -47,26 +42,21 @@ Public Class AccessTc
         ' Get default cache path
         solidEdgeTce.GetPDMCachePath(cachePath)
 
-        'Specify Server Credentials
-        userName = Acronym
-        password = Acronym
-        group = "Engineering"
-        role = "Designer"
-        url = "TC12_PROD"
-
-        Call solidEdgeTce.ValidateLogin(userName, password, group, role, url)
-
 
         'Download the file to cache
         Dim fileInCache As String
         fileInCache = Path.Combine(cachePath, filename)
         If FileSystem.FileExists(fileInCache) Then
             Console.WriteLine("File found in your cache.")
-        Else
-            solidEdgeTce.DownladDocumentsFromServerWithOptions(jde, revision, filename,
-                                                           SolidEdgeConstants.RevisionRuleType.LatestRevision, "", True,
-                                                           False, SolidEdgeConstants.TCDownloadOptions.COImplicit, temp)
-            Console.WriteLine("File loaded in your cache.")
+
+            If GetUserTcMode() Then
+                solidEdgeTce.DownladDocumentsFromServerWithOptions(jde, revision, filename,
+                                                        SolidEdgeConstants.RevisionRuleType.LatestRevision, "", True,
+                                                        False, SolidEdgeConstants.TCDownloadOptions.COImplicit, temp)
+                Console.WriteLine("File loaded in your cache.")
+            Else
+                Console.WriteLine("Your are not logged to Teamcenter. Please Login before running the macro.")
+            End If
         End If
 
 

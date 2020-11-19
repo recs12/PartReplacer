@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using LoadPartsFromTeamcenter;
 using static System.Console;
 using Path = System.IO.Path;
@@ -10,56 +11,49 @@ namespace PartReplacer
         public static void Part(SolidEdgeAssembly.Occurrence occ, string material)
         {
 
-            if (occ.Subassembly == false)
+
+            var partFullName = occ.OccurrenceFileName;
+
+            var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
+
+            //Find the part equivalent with the required material in <table.json>.
+            var jdeOccurrence = Cache.GetJde(partFullName);
+
+            var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material);
+
+            if (material == "?") return;  // No conversion, the user just check the values in table.
+
+            // Get details from jde number.
+            var part = Helpers.Fasteners.getReplacementPartDetails(jdeReplacement);
+
+            var jde = part.Item1;
+            var revision = part.Item2;
+            var filename = part.Item3;
+
+
+            if (jde != null && jde != jdeOccurrence) // review this condition and assure that the part is not null.
             {
+                // Load new part in Solid edge cache.
+                AccessTc.LoadPartToCache(jde, revision, filename, cacheDirectory);
 
-                var partFullName = occ.OccurrenceFileName;
-
-                var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
-
-                //Find the part equivalent with the required material in <table.json>.
-                var jdeOccurrence = Cache.GetJde(partFullName);
-
-                var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material);
-
-                if (material == "?") return;  // No conversion, the user just check the values in table.
-
-                // Get details from jde number.
-                //var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);                //var part = Convertor.Convertor.GetDatasetDetailsForPart(jdeReplacement, fasteners);
-                var part = Helpers.Fasteners.getReplacementPartDetails(jdeReplacement);
-
-                var jde = part.Item1; var revision = part.Item2; var filename = part.Item3;
-
-
-                if (jde != null && jde != jdeOccurrence) // review this condition and assure that the part is not null.
+                // Replace selected part with new part.
+                var newPart = Path.Combine(cacheDirectory, filename);
+                if (File.Exists(newPart))
                 {
-                    // Load new part in Solid edge cache.
-
-                    if ((bool)AccessTc.GetUserTcMode())
-                    {
-                        AccessTc.LoadPartToCache(jde, revision, filename, cacheDirectory);
-
-                        // Replace selected part with new part.
-                        var newPart = Path.Combine(cacheDirectory, filename);
-                        occ.Replace(newPart, true);
-                        WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement);
-                    }
-                    else
-                    {
-                        Console.WriteLine(@"[!] Unable to load the part because you are not connected to Teamcenter.");
-                        Console.WriteLine(@"Connect to teamcenter before running this macro.");
-                    }
-                    Console.WriteLine(@"---");
+                    occ.Replace(newPart, true);
+                    WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement); //not a good place
                 }
                 else
                 {
-                    WriteLine($@"[-] Replacement not performed ({jde})->(=)");
+                    Console.WriteLine($@"[!] Replacement not performed, check if you are connected to Teamcenter.");
                 }
             }
             else
             {
-                WriteLine(@"[-] Replacement not performed (.)->() (SubAssembly)");
+                WriteLine($@"[-] Replacement not performed ({jde})->(=)");
             }
+
+            Console.WriteLine(@"---");
         }
     }
 }

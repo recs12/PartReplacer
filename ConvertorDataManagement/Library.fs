@@ -6,15 +6,17 @@ open FSharp.Json
 
 module User =
 
-    let version : string = "0.0.2"
+    let version : string = "0.0.3"
     let author : string = "recs"
-    let update : string = "2020-11-04"
+    let update : string = "2020-11-19"
 
     let displayDetails author version update =
         printfn "PartReplacer :"
-        printfn "--author: %s --version: %s --last-update : %s" author version update
-        printfn @"Would you like to replace the fasteners in this assembly ?"
-        printfn @"Select the items you want to change and press y/[Y] to proceed:"
+        printfn "====================================================================="
+        printfn " --author: %s --version: %s --last-update : %s" author version update
+        printfn "---------------------------------------------------------------------"
+        printfn @" Would you like to replace the fasteners in this assembly? Select the"
+        printfn @" items you want to change and press y/[Y] to proceed:"
         0
 
 module Utilities =
@@ -31,8 +33,8 @@ module Utilities =
         sx
         |> List.iter printOptionLine
         printfn ""
-        printfn @"Select material with keys [1,2,3,4,5,6] or press [?]"
-        printfn @"if you would like to check the current conversion table."
+        printfn @" Select material with keys [1,2,3,4,5,6] or press [?]"
+        printfn @" if you would like to check the current conversion table."
         0
 
 
@@ -56,7 +58,8 @@ module Switcher =
 
 module Fasteners =
 
-    let Inputfilename : string = @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners2.json"
+    let Inputfilename : string =
+        @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.json"
 
     type FastenerDetails = {
             JdeNumber: string

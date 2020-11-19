@@ -116,7 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fastener.ico" />
-    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

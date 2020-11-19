@@ -2,9 +2,6 @@
 using static System.Console;
 using Helpers;
 
-// 6. Check wrong password
-
-
 namespace PartReplacer
 {
     internal class Program
@@ -17,8 +14,7 @@ namespace PartReplacer
             User.displayDetails(User.author, User.version, User.update);
 
             var resp = ReadLine()?.ToLower();
-            const string answerYes = "y";
-            if (resp != answerYes)
+            if (resp != "y")
             {
                 WriteLine(@"You have exit the application.");
                 ReadKey();
@@ -29,14 +25,13 @@ namespace PartReplacer
                 var application = SolidEdgeCommunity.SolidEdgeUtils.Connect(true, true);
                 var assemblyDocument = (SolidEdgeAssembly.AssemblyDocument)application.ActiveDocument;
 
-                // selection set
+                // Get all elements selected by user.
                 var selection = assemblyDocument.SelectSet;
 
                 // check if any selection in solidedge.
-                WriteLine($@"Quantity item selected: {selection.Count}");
+                WriteLine($@" Number of items selected: ** {selection.Count} **");
                 if (selection.Count != 0)
                 {
-
 
                     _ = Utilities.displayOptions;
 
