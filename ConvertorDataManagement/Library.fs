@@ -88,3 +88,35 @@ module Fasteners =
         let item = searchDetails deserialized jdeNumber
 
         item
+
+module TableConversion =
+
+    let Inputfilename =
+        @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json"
+
+    type Table = Map<string, string>
+
+    type ConversionChartList = Map<string, Table>
+
+
+    let getEquivalentByTypeMaterial (jdeNumber:string) (material) =
+
+        let json = System.IO.File.ReadAllText(Inputfilename)
+
+        let deserializedTableData = Json.deserialize<ConversionChartList> json
+
+        let getTable (collectionsChart: ConversionChartList) (jdeNum:string)=
+            collectionsChart.TryGetValue jdeNum
+
+        let tableConversion = getTable deserializedTableData jdeNumber
+
+        let tableStatus = (fst tableConversion)
+
+        let partnumber =
+            if tableStatus then
+                let chart =  snd tableConversion
+                let equivalent:string = chart.[material]
+                equivalent
+            else ""
+
+        partnumber
