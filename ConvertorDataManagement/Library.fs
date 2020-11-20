@@ -4,6 +4,7 @@ namespace Helpers
 open System
 open FSharp.Json
 
+
 module User =
 
     let version : string = "0.0.3"
@@ -99,7 +100,8 @@ module TableConversion =
     type ConversionChartList = Map<string, Table>
 
 
-    let getEquivalentByTypeMaterial (jdeNumber:string) (material) =
+
+    let getEquivalentByTypeMaterial (jdeNumber:string) (material) :string =
 
         let json = System.IO.File.ReadAllText(Inputfilename)
 
@@ -120,3 +122,19 @@ module TableConversion =
             else ""
 
         partnumber
+
+
+    let displayChartOfConversion (jdeNumber:string) (material) =
+
+        let json = System.IO.File.ReadAllText(Inputfilename)
+
+        let deserializedTableData = Json.deserialize<ConversionChartList> json
+
+        let getTable (collectionsChart: ConversionChartList) (jdeNum:string)=
+            collectionsChart.TryGetValue jdeNum
+
+        let tableConversion = getTable deserializedTableData jdeNumber
+
+        let tableStatus = (fst tableConversion)
+
+        printfn  "  > %s -> %s (=)" material jdeNumber|> ignore

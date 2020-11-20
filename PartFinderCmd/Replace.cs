@@ -6,7 +6,7 @@ using Path = System.IO.Path;
 
 namespace PartReplacer
 {
-    class Replace
+    internal class Replace
     {
         public static void Part(SolidEdgeAssembly.Occurrence occ, string material)
         {
@@ -19,7 +19,9 @@ namespace PartReplacer
             //Find the part equivalent with the required material in <table.json>.
             var jdeOccurrence = Cache.GetJde(partFullName);
 
-            var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material);
+            var jdeReplacement = Helpers.TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
+
+            Helpers.TableConversion.displayChartOfConversion(jdeReplacement, material);
 
             if (material == "?") return;  // No conversion, the user just check the values in table.
 
