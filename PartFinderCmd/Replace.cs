@@ -21,8 +21,6 @@ namespace PartReplacer
 
             var jdeReplacement = Helpers.TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
 
-            Helpers.TableConversion.displayChartOfConversion(jdeReplacement, material);
-
             if (material == "?") return;  // No conversion, the user just check the values in table.
 
             // Get details from jde number.

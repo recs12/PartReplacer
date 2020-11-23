@@ -117,24 +117,13 @@ module TableConversion =
         let partnumber =
             if tableStatus then
                 let chart =  snd tableConversion
+                printfn "%A" chart
+                //let keys = chart.Keys
+                //keys |> Seq.iter (fun key -> printfn "Key = %A" key) keys
                 let equivalent:string = chart.[material]
                 equivalent
             else ""
 
+
         partnumber
 
-
-    let displayChartOfConversion (jdeNumber:string) (material) =
-
-        let json = System.IO.File.ReadAllText(Inputfilename)
-
-        let deserializedTableData = Json.deserialize<ConversionChartList> json
-
-        let getTable (collectionsChart: ConversionChartList) (jdeNum:string)=
-            collectionsChart.TryGetValue jdeNum
-
-        let tableConversion = getTable deserializedTableData jdeNumber
-
-        let tableStatus = (fst tableConversion)
-
-        printfn  "  > %s -> %s (=)" material jdeNumber|> ignore

@@ -37,26 +37,35 @@ namespace PartReplacer
 
                     var material = Switcher.getUserChoice;
 
-                    try
+                    if (material == "")
                     {
-                        for (var i = 1; i <= selection.Count; i++)
+                        WriteLine("Wrong pick! Try again but this time stick to the choice displayed.");
+                        ReadKey();
+                    }
+                    else
+                    {
+                        try
                         {
-                            try
+                            for (var i = 1; i <= selection.Count; i++)
                             {
-                                // Loop through items selected in the active assembly.
-                                var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-                                Replace.Part(occ, material);
-                            }
-                            catch (InvalidCastException)
-                            {
-                                WriteLine(@"[!] Item not in the current assembly level.");
+                                try
+                                {
+                                    // Loop through items selected in the active assembly.
+                                    var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
+                                    Replace.Part(occ, material);
+                                }
+                                catch (InvalidCastException)
+                                {
+                                    WriteLine(@"[!] Item not in the current assembly level.");
+                                }
                             }
                         }
-                    }
-                    finally
-                    {
-                        WriteLine(@"Exit 0");
-                        ReadKey();
+                        finally
+                        {
+                            WriteLine(@"Exit 0");
+                            ReadKey();
+                        }
+
                     }
                 }
                 else
