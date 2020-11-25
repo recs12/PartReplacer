@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Playground.fsx" />
     <Compile Include="Library.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>

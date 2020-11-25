@@ -21,7 +21,7 @@ namespace PartReplacer
 
             var jdeReplacement = Helpers.TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
 
-            if (material == "?") return;  // No conversion, the user just check the values in table.
+            if (material == "?") return;  // No conversion, the user just wants check the values in table.
 
             // Get details from jde number.
             var part = Helpers.Fasteners.getReplacementPartDetails(jdeReplacement);
