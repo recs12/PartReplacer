@@ -123,11 +123,5 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Convertor\Convertor.csproj">
-      <Project>{b207e718-4d12-4305-840f-8b18f45d082e}</Project>
-      <Name>Convertor</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

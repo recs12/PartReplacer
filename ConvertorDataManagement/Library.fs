@@ -7,30 +7,29 @@ open FSharp.Json
 
 module User =
 
-    let version : string = "0.0.3"
-    let author : string = "recs"
-    let update : string = "2020-11-19"
-
     let displayDetails author version update =
         printfn "PartReplacer :"
         printfn "====================================================================="
-        printfn " --author: %s --version: %s --last-update : %s" author version update
+        printfn " --author: %s --version: %s --last-update: %s" author version update
         printfn "---------------------------------------------------------------------"
         printfn @" Would you like to replace the fasteners in this assembly? Select the"
         printfn @" items you want to change and press y/[Y] to proceed:"
-        0
+        |>ignore
+
 
 module Utilities =
 
     let zip s1 s2 = List.zip s1 s2 |> List.ofSeq
 
-    let printOptionLine x = printfn """    [%i] %s""" (fst x) (snd x)
+    let printOptionLine x =
+        let number, category = x
+        printfn """    [%i] %s""" number category
 
     let displayOptions =
-        let material : list<string> = [ "imperial zinc"; "metric zinc"; "imperial ss-304"; "metric ss-304"; "imperial ss-316"; "metric ss-316" ]
+        let boltCategories = Details.BoltCategories
         let indexer = [1 .. 6]
         printfn ""
-        let sx = zip indexer material
+        let sx = zip indexer boltCategories
         sx
         |> List.iter printOptionLine
         printfn ""
@@ -57,10 +56,9 @@ module Switcher =
         let material =  switcher response
         material
 
+
 module Fasteners =
 
-    let Inputfilename : string =
-        @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.json"
 
     type FastenerDetails = {
             JdeNumber: string
@@ -72,7 +70,7 @@ module Fasteners =
 
     let getReplacementPartDetails jdeNumber =
 
-        let json :string = System.IO.File.ReadAllText(Inputfilename)
+        let json :string = System.IO.File.ReadAllText(Details.dataFileFasteners)
 
         let deserialized: ItemCollection = Json.deserialize<ItemCollection> json
 
@@ -90,40 +88,52 @@ module Fasteners =
 
         item
 
-module TableConversion =
 
-    let Inputfilename =
-        @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json"
+module TableConversion =
 
     type Table = Map<string, string>
 
     type ConversionChartList = Map<string, Table>
 
+    let getEquivalentByTypeMaterial (jdeNumber:string) (material) =
 
-
-    let getEquivalentByTypeMaterial (jdeNumber:string) (material) :string =
-
-        let json = System.IO.File.ReadAllText(Inputfilename)
+        let json = System.IO.File.ReadAllText(Details.dataFileTables)
 
         let deserializedTableData = Json.deserialize<ConversionChartList> json
 
         let getTable (collectionsChart: ConversionChartList) (jdeNum:string)=
             collectionsChart.TryGetValue jdeNum
 
-        let tableConversion = getTable deserializedTableData jdeNumber
-
-        let tableStatus = (fst tableConversion)
+        let tableStatus, table = getTable deserializedTableData jdeNumber
 
         let partnumber =
-            if tableStatus then
-                let chart =  snd tableConversion
-                printfn "%A" chart
-                //let keys = chart.Keys
-                //keys |> Seq.iter (fun key -> printfn "Key = %A" key) keys
-                let equivalent:string = chart.[material]
-                equivalent
-            else ""
+            match tableStatus with
+            | true ->  table.[material]
+            | false -> ""
+
+        let part = partnumber
+        part
 
 
-        partnumber
+module Chart=
 
+
+    let displayChart jde chart =
+
+        let boltCategories = Details.BoltCategories
+
+        let rec search dict key =
+            match dict with
+            | [] -> ""
+            | (k, v) :: _ when k = key -> v
+            | _ :: tl -> search tl key
+
+        let signet jde key = if jde = key then ">" else " "
+        let equality jde key = if jde = key then "==" else "<>"
+
+        (*Display of the chart to user bellow.*)
+
+        printfn "match %10s with" jde
+        let wx = List.zip [1..6] boltCategories
+        wx |> List.iter (fun wx ->
+            printfn "%4i|%s %-16s -> %-10s %s" (fst wx) (signet jde (search chart (snd wx))) (snd wx) (search chart (snd wx)) (equality jde (search chart (snd wx))))

@@ -6,7 +6,9 @@ let table = [("imperial ss-304", "24102605"); ("imperial ss-316", "147289");
  ("metric ss-316", "182662"); ("metric zinc", "24101195")]
 let materialList = [ "imperial zinc"; "metric zinc"; "imperial ss-304"; "metric ss-304"; "imperial ss-316"; "metric ss-316" ]
 
-let displayChart jde chart materialList =
+let displayChart jde chart =
+
+    let boltCategories = materialList
 
     let rec search dict key =
         match dict with
@@ -17,11 +19,15 @@ let displayChart jde chart materialList =
     let signet jde key = if jde = key then ">" else " "
     let equality jde key = if jde = key then "==" else "<>"
 
-    (*Display of the chart to user bellow.*)
-    printfn "%s:" jde
-    let wx = List.zip [1..6] materialList
-    wx |> List.iter  (fun wx -> printfn "%4i|%s %-16s -> %-10s %s" (fst wx) (signet jde (search chart (snd wx))) (snd wx) (search chart (snd wx)) (equality jde (search chart (snd wx))))
+    let displaylines line =
+        for index, table in line do
+        printfn "%4i|%s %-16s -> %-10s %s" index (signet jde (search chart table)) table (search chart table) (equality jde (search chart table))
+
+    (*Display of the chart to user.*)
+
+    printfn "match %-8s with" jde
+    let zipped = List.zip [1..6] boltCategories
+    displaylines zipped
 
 
-
-displayChart "147289" table materialList
+displayChart "147289" table

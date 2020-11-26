@@ -11,7 +11,7 @@ namespace PartReplacer
         private static void Main()
         {
 
-            User.displayDetails(User.author, User.version, User.update);
+            User.displayDetails(Details.author, Details.version, Details.update);
 
             var resp = ReadLine()?.ToLower();
             if (resp != "y")
