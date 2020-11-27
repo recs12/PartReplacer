@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Json" Version="0.4.0" />
+    <PackageReference Include="Interop.SolidEdge" Version="220.2.0" />
+    <PackageReference Include="SolidEdge.Community" Version="219.0.0" />
   </ItemGroup>
 
   <ItemGroup>

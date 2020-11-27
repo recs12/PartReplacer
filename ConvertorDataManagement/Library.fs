@@ -3,7 +3,9 @@ namespace Helpers
 
 open System
 open FSharp.Json
-
+open SolidEdgeFramework
+open SolidEdgeFileProperties
+open System.Runtime.InteropServices
 
 module User =
 
@@ -89,7 +91,41 @@ module Fasteners =
         item
 
 
+module Chart =
+
+
+    let displayChart jde tab =
+
+        let Keys(map: Map<'K,'V>) =
+            seq {
+                for KeyValue(key,value) in map do
+                    yield (key,value)
+            } |> List.ofSeq
+
+        let chart = Keys tab
+
+        let boltCategories = Details.BoltCategories
+
+        let rec search dict key =
+            match dict with
+            | [] -> ""
+            | (k, v) :: _ when k = key -> v
+            | _ :: tl -> search tl key
+
+        let signet jde key = if jde = key then ">" else " "
+        let equality jde key = if jde = key then "==" else "<>"
+
+        (*Display of the chart to user bellow.*)
+
+        printfn "match %10s with" jde
+        let wx = List.zip [1..6] boltCategories
+        wx |> List.iter (fun wx ->
+            printfn "%4i|%s %-16s -> %-10s %s" (fst wx) (signet jde (search chart (snd wx))) (snd wx) (search chart (snd wx)) (equality jde (search chart (snd wx))))
+
+
 module TableConversion =
+
+    open Chart
 
     type Table = Map<string, string>
 
@@ -111,29 +147,15 @@ module TableConversion =
             | true ->  table.[material]
             | false -> ""
 
+
         let part = partnumber
+
+        Chart.displayChart part table
+
         part
 
 
-module Chart=
 
 
-    let displayChart jde chart =
 
-        let boltCategories = Details.BoltCategories
 
-        let rec search dict key =
-            match dict with
-            | [] -> ""
-            | (k, v) :: _ when k = key -> v
-            | _ :: tl -> search tl key
-
-        let signet jde key = if jde = key then ">" else " "
-        let equality jde key = if jde = key then "==" else "<>"
-
-        (*Display of the chart to user bellow.*)
-
-        printfn "match %10s with" jde
-        let wx = List.zip [1..6] boltCategories
-        wx |> List.iter (fun wx ->
-            printfn "%4i|%s %-16s -> %-10s %s" (fst wx) (signet jde (search chart (snd wx))) (snd wx) (search chart (snd wx)) (equality jde (search chart (snd wx))))
