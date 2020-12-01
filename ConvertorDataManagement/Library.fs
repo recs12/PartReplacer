@@ -3,9 +3,6 @@ namespace Helpers
 
 open System
 open FSharp.Json
-open SolidEdgeFramework
-open SolidEdgeFileProperties
-open System.Runtime.InteropServices
 
 module User =
 
@@ -94,7 +91,7 @@ module Fasteners =
 module Chart =
 
 
-    let displayChart jde tab =
+    let displayChart jde tab mat =
 
         let Keys(map: Map<'K,'V>) =
             seq {
@@ -106,21 +103,33 @@ module Chart =
 
         let boltCategories = Details.BoltCategories
 
-        let rec search dict key =
+        let rec findIn dict key =
             match dict with
             | [] -> ""
             | (k, v) :: _ when k = key -> v
-            | _ :: tl -> search tl key
+            | _ :: tl -> findIn tl key
 
-        let signet jde key = if jde = key then ">" else " "
-        let equality jde key = if jde = key then "==" else "<>"
+        let arrow mat key =
+            match (mat = key) with
+            | true -> ">"
+            | false -> " "
 
-        (*Display of the chart to user bellow.*)
+        let equality jde key =
+            match (jde = key) with
+            | true -> "(=)"
+            | false -> " "
 
-        printfn "match %10s with" jde
-        let wx = List.zip [1..6] boltCategories
-        wx |> List.iter (fun wx ->
-            printfn "%4i|%s %-16s -> %-10s %s" (fst wx) (signet jde (search chart (snd wx))) (snd wx) (search chart (snd wx)) (equality jde (search chart (snd wx))))
+
+        let displaylines line =
+            for index, category in line do
+            printfn "%10i|%s  %-16s   ->   %-10s  %s" index (arrow jde (findIn chart category)) category (findIn chart category) (equality jde (findIn chart category))
+
+
+        printfn "--- match %8s with ---" jde
+        printfn ""
+        let zippedIndexAndCategories = List.zip [1..6] boltCategories
+        displaylines zippedIndexAndCategories
+        printfn ""
 
 
 module TableConversion =
@@ -150,7 +159,7 @@ module TableConversion =
 
         let part = partnumber
 
-        Chart.displayChart part table
+        Chart.displayChart part table material
 
         part
 
