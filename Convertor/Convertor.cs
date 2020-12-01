@@ -55,37 +55,6 @@ namespace Convertor
             }
         }
 
-        public static Tuple<string, string, string> GetDatasetDetailsForPart(
-            string jdeNumber,
-            string fastenerFilePath
-        )
-        {
-            var readAllText = File.ReadAllText(fastenerFilePath);
-            var listing = JsonConvert.DeserializeObject<IDictionary<string, object>>(
-                readAllText, new JsonConverter[] { new MyConverter() }
-            );
 
-            // ReSharper disable once InvertIf
-            if (listing != null && listing.ContainsKey(jdeNumber))
-            {
-                var n = listing[jdeNumber];
-                var chair = n.ToString();
-
-                var item = JsonConvert.DeserializeObject<Dictionary<string, string>>(chair);
-
-                // Create a part to return with the details attached to it.
-                var tuple = new Tuple<string, string, string>(item["JdeNumber"], item["Revision"], item["Filename"]);
-                return tuple;
-            }
-            else
-            {
-                Console.WriteLine($@"MISSING: the fasteners dataset file: {fastenerFilePath} \n" +
-                    $@"does not contain {jdeNumber}\n" +
-                    "To fix it, you can edit and add the missing data in the file fasteners.json \n" // add a sample of what to add
-                 );
-                var tuple = new Tuple<string, string, string>("", "", "");
-                return tuple;
-            }
         }
     }
-}

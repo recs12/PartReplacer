@@ -6,7 +6,7 @@ using Path = System.IO.Path;
 
 namespace PartReplacer
 {
-    class Replace
+    internal class Replace
     {
         public static void Part(SolidEdgeAssembly.Occurrence occ, string material)
         {
@@ -19,12 +19,17 @@ namespace PartReplacer
             //Find the part equivalent with the required material in <table.json>.
             var jdeOccurrence = Cache.GetJde(partFullName);
 
-            var jdeReplacement = Convertor.Convertor.GetConversionFromTable(jdeOccurrence, material);
+            var replacement = Helpers.TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
 
-            if (material == "?") return;  // No conversion, the user just check the values in table.
+            //var replacement = tuple.Item1;
+            //var table = tuple.Item2;
+
+            //Helpers.Chart.displayChart(replacement, table);
+
+            if (material == "?") return;  // No conversion, the user just wants check the values in table.
 
             // Get details from jde number.
-            var part = Helpers.Fasteners.getReplacementPartDetails(jdeReplacement);
+            var part = Helpers.Fasteners.getReplacementPartDetails(replacement);
 
             var jde = part.Item1;
             var revision = part.Item2;
@@ -41,7 +46,7 @@ namespace PartReplacer
                 if (File.Exists(newPart))
                 {
                     occ.Replace(newPart, true);
-                    WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, jdeReplacement); //not a good place
+                    WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, replacement); //not a good place
                 }
                 else
                 {

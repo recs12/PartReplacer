@@ -6,30 +6,29 @@ open FSharp.Json
 
 module User =
 
-    let version : string = "0.0.3"
-    let author : string = "recs"
-    let update : string = "2020-11-19"
-
     let displayDetails author version update =
         printfn "PartReplacer :"
         printfn "====================================================================="
-        printfn " --author: %s --version: %s --last-update : %s" author version update
+        printfn " --author: %s --version: %s --last-update: %s" author version update
         printfn "---------------------------------------------------------------------"
         printfn @" Would you like to replace the fasteners in this assembly? Select the"
         printfn @" items you want to change and press y/[Y] to proceed:"
-        0
+        |>ignore
+
 
 module Utilities =
 
     let zip s1 s2 = List.zip s1 s2 |> List.ofSeq
 
-    let printOptionLine x = printfn """    [%i] %s""" (fst x) (snd x)
+    let printOptionLine x =
+        let number, category = x
+        printfn """    [%i] %s""" number category
 
     let displayOptions =
-        let material : list<string> = [ "imperial zinc"; "metric zinc"; "imperial ss-304"; "metric ss-304"; "imperial ss-316"; "metric ss-316" ]
+        let boltCategories = Details.BoltCategories
         let indexer = [1 .. 6]
         printfn ""
-        let sx = zip indexer material
+        let sx = zip indexer boltCategories
         sx
         |> List.iter printOptionLine
         printfn ""
@@ -56,10 +55,9 @@ module Switcher =
         let material =  switcher response
         material
 
+
 module Fasteners =
 
-    let Inputfilename : string =
-        @"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.json"
 
     type FastenerDetails = {
             JdeNumber: string
@@ -71,7 +69,7 @@ module Fasteners =
 
     let getReplacementPartDetails jdeNumber =
 
-        let json :string = System.IO.File.ReadAllText(Inputfilename)
+        let json :string = System.IO.File.ReadAllText(Details.dataFileFasteners)
 
         let deserialized: ItemCollection = Json.deserialize<ItemCollection> json
 
@@ -88,3 +86,85 @@ module Fasteners =
         let item = searchDetails deserialized jdeNumber
 
         item
+
+
+module Chart =
+
+
+    let displayChart jde tab mat =
+
+        let Keys(map: Map<'K,'V>) =
+            seq {
+                for KeyValue(key,value) in map do
+                    yield (key,value)
+            } |> List.ofSeq
+
+        let chart = Keys tab
+
+        let boltCategories = Details.BoltCategories
+
+        let rec findIn dict key =
+            match dict with
+            | [] -> ""
+            | (k, v) :: _ when k = key -> v
+            | _ :: tl -> findIn tl key
+
+        let arrow mat key =
+            match (mat = key) with
+            | true -> ">"
+            | false -> " "
+
+        let equality jde key =
+            match (jde = key) with
+            | true -> "(=)"
+            | false -> " "
+
+
+        let displaylines line =
+            for index, category in line do
+            printfn "%10i|%s  %-16s   ->   %-10s  %s" index (arrow jde (findIn chart category)) category (findIn chart category) (equality jde (findIn chart category))
+
+
+        printfn "--- match %8s with ---" jde
+        printfn ""
+        let zippedIndexAndCategories = List.zip [1..6] boltCategories
+        displaylines zippedIndexAndCategories
+        printfn ""
+
+
+module TableConversion =
+
+    open Chart
+
+    type Table = Map<string, string>
+
+    type ConversionChartList = Map<string, Table>
+
+    let getEquivalentByTypeMaterial (jdeNumber:string) (material) =
+
+        let json = System.IO.File.ReadAllText(Details.dataFileTables)
+
+        let deserializedTableData = Json.deserialize<ConversionChartList> json
+
+        let getTable (collectionsChart: ConversionChartList) (jdeNum:string)=
+            collectionsChart.TryGetValue jdeNum
+
+        let tableStatus, table = getTable deserializedTableData jdeNumber
+
+        let partnumber =
+            match tableStatus with
+            | true ->  table.[material]
+            | false -> ""
+
+
+        let part = partnumber
+
+        Chart.displayChart part table material
+
+        part
+
+
+
+
+
+
