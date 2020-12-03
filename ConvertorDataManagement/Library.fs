@@ -4,6 +4,11 @@ namespace Helpers
 open System
 open FSharp.Json
 
+
+module Blank =
+    let line = printfn ""
+
+
 module User =
 
     let displayDetails author version update =
@@ -18,7 +23,7 @@ module User =
 
 module Utilities =
 
-    let zip s1 s2 = List.zip s1 s2 |> List.ofSeq
+    open Blank
 
     let printOptionLine x =
         let number, category = x
@@ -27,11 +32,11 @@ module Utilities =
     let displayOptions =
         let boltCategories = Details.BoltCategories
         let indexer = [1 .. 6]
-        printfn ""
-        let sx = zip indexer boltCategories
+        Blank.line
+        let sx = List.zip  indexer boltCategories
         sx
         |> List.iter printOptionLine
-        printfn ""
+        Blank.line
         printfn @" Select material with keys [1,2,3,4,5,6] or press [?]"
         printfn @" if you would like to check the current conversion table."
         0
@@ -127,10 +132,10 @@ module Chart =
 
 
         printfn "--- match %8s with ---" jde
-        printfn ""
+        Blank.line
         let zippedIndexAndCategories = List.zip [1..6] boltCategories
         displaylines zippedIndexAndCategories
-        printfn ""
+        Blank.line
 
 
 module TableConversion =
