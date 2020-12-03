@@ -11,22 +11,18 @@ namespace PartReplacer
         public static void Part(SolidEdgeAssembly.Occurrence occ, string material)
         {
 
+            Console.WriteLine("...");
 
             var partFullName = occ.OccurrenceFileName;
 
             var cacheDirectory = Path.GetDirectoryName(partFullName) + Path.DirectorySeparatorChar;
 
-            //Find the part equivalent with the required material in <table.json>.
             var jdeOccurrence = Cache.GetJde(partFullName);
 
             var replacement = Helpers.TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
 
-            //var replacement = tuple.Item1;
-            //var table = tuple.Item2;
-
-            //Helpers.Chart.displayChart(replacement, table);
-
             if (material == "?") return;  // No conversion, the user just wants check the values in table.
+
 
             // Get details from jde number.
             var part = Helpers.Fasteners.getReplacementPartDetails(replacement);
@@ -36,7 +32,7 @@ namespace PartReplacer
             var filename = part.Item3;
 
 
-            if (jde != null && jde != jdeOccurrence) // review this condition and assure that the part is not null.
+            if (jde != "" && jde != jdeOccurrence) // review this condition and assure that the part is not null.
             {
                 // Load new part in Solid edge cache.
                 AccessTc.LoadPartToCache(jde, revision, filename, cacheDirectory);
@@ -58,7 +54,7 @@ namespace PartReplacer
                 WriteLine($@"[-] Replacement not performed ({jde})->(=)");
             }
 
-            Console.WriteLine(@"---");
+            Console.WriteLine("---");
         }
     }
 }

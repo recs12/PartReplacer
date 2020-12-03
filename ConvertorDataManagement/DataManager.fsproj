@@ -8,7 +8,6 @@
   <ItemGroup>
     <Compile Include="Values.fs" />
     <Compile Include="Library.fs" />
-    <None Include="Playground.fsx" />
     <None Include="Script.fsx" />
   </ItemGroup>
 

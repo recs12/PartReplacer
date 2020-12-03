@@ -51,6 +51,7 @@ module Switcher =
             | "6" -> "metric ss-316"
             | "?" -> "?"
             | _ -> ""
+
         let response:string = Console.ReadLine()
         let material =  switcher response
         material
@@ -91,7 +92,7 @@ module Fasteners =
 module Chart =
 
 
-    let displayChart jde tab mat =
+    let displayChart jde tab material =
 
         let Keys(map: Map<'K,'V>) =
             seq {
@@ -109,8 +110,8 @@ module Chart =
             | (k, v) :: _ when k = key -> v
             | _ :: tl -> findIn tl key
 
-        let arrow mat key =
-            match (mat = key) with
+        let arrow material key =
+            match (material = key) with
             | true -> ">"
             | false -> " "
 
@@ -122,7 +123,7 @@ module Chart =
 
         let displaylines line =
             for index, category in line do
-            printfn "%10i|%s  %-16s   ->   %-10s  %s" index (arrow jde (findIn chart category)) category (findIn chart category) (equality jde (findIn chart category))
+            printfn "%10i|%s  %-16s   ->   %-10s  %s" index (arrow material category) category (findIn chart category) (equality jde (findIn chart category))
 
 
         printfn "--- match %8s with ---" jde
@@ -149,13 +150,11 @@ module TableConversion =
         let getTable (collectionsChart: ConversionChartList) (jdeNum:string)=
             collectionsChart.TryGetValue jdeNum
 
-        let tableStatus, table = getTable deserializedTableData jdeNumber
+        let Success, table = getTable deserializedTableData jdeNumber
 
         let partnumber =
-            match tableStatus with
-            | true ->  table.[material]
-            | false -> ""
-
+            if (Success && material <> "?") then table.[material]
+            else            ""
 
         let part = partnumber
 
@@ -164,7 +163,53 @@ module TableConversion =
         part
 
 
+//module CacheContent =
+
+//    type ProperySets() =
+//        interface SolidEdgeFileProperties.PropertySets with
+//            member this.Application = raise (System.NotImplementedException())
+//            member this.Close() = raise (System.NotImplementedException())
+//            member this.Count = raise (System.NotImplementedException())
+//            member this.CreateCustonPropertySet() = raise (System.NotImplementedException())
+//            member this.GetEnumerator() = raise (System.NotImplementedException())
+//            member this.GetFamilyOfAssemblyMemberNames(fileName, memberCount, memberNames) = raise (System.NotImplementedException())
+//            member this.IsFileFamilyOfAssembly(fileName, bFamilyOfAssembly) = raise (System.NotImplementedException())
+//            member this.IsFileWeldmentAssembly(fileName, bWeldmentAssembly) = raise (System.NotImplementedException())
+//            member this.Item
+//                with get (index) = raise (System.NotImplementedException())
+//            member this.Parent = raise (System.NotImplementedException())
+//            member this.Save() = raise (System.NotImplementedException())
+//            member this.Open(a,b) = raise (System.NotImplementedException())
 
 
+//    type Properties() =
+//        interface SolidEdgeFileProperties.Properties with
+//            member this.Add(name, value) = raise (System.NotImplementedException())
+//            member this.Application = raise (System.NotImplementedException())
+//            member this.Count = raise (System.NotImplementedException())
+//            member this.GetEnumerator() = raise (System.NotImplementedException())
+//            member this.Name = raise (System.NotImplementedException())
+//            member this.Parent = raise (System.NotImplementedException())
+//            member this.PropertyByID
+//                with get (propID) = raise (System.NotImplementedException())
+//            member this.Save() = raise (System.NotImplementedException())
+//            member this.Item
+//                with get (index) = raise (System.NotImplementedException())
 
 
+//    type Property() =
+//        interface SolidEdgeFileProperties.Property with
+//            member this.Item
+//                with get (index) = raise (System.NotImplementedException())
+
+
+//    let ExtractJdeFromCad location =
+
+//        let prop = new ProperySets()
+//        let prop = prop :> SolidEdgeFileProperties.PropertySets
+//        prop.Open(location, true)
+
+//        let pr = new Properties()
+//        let pr = pr :> SolidEdgeFileProperties.Properties
+//        let prr = pr.["Custom"]
+//        prr
