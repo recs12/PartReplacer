@@ -28,13 +28,21 @@ module Console =
 module Blank =
     let line = printfn ""
 
+module Quantity =
+
+    let displaySelectionCount count =
+        Console._default   <| sprintf  @" Number of items selected: "
+        Console.red   <| sprintf  "** %i **" count
+        printfn ""
 
 module User =
+    open Console
 
     let displayDetails author version update =
         printfn "PartReplacer :"
         printfn "====================================================================="
         printfn " --author: %s --version: %s --last-update: %s" author version update
+        printfn ""
         printfn "---------------------------------------------------------------------"
         printfn @" Would you like to replace the fasteners in this assembly? Select the"
         printfn @" items you want to change and press y/[Y] to proceed:"
@@ -57,6 +65,7 @@ module Utilities =
         sx
         |> List.iter printOptionLine
         Blank.line
+        printfn ""
         printfn @" Select material with keys [1,2,3,4,5,6] or press [?]"
         printfn @" if you would like to check the current conversion table."
         0
@@ -153,7 +162,7 @@ module Chart =
             Console.darkyellow <| sprintf "%s  " (arrow material category)
             Console._default   <| sprintf "%-16s" category
             Console._default   <| sprintf " -> "
-            Console.green      <| sprintf " %-10s" (findIn chart category)
+            Console.darkyellow      <| sprintf " %-10s" (findIn chart category)
             Console._default   <| sprintf " %s"  (equality jde (findIn chart category))
             printfn ""
 

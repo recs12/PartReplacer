@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Console;
 using Helpers;
+using Warnings;
 
 namespace PartReplacer
 {
@@ -29,7 +30,7 @@ namespace PartReplacer
                 var selection = assemblyDocument.SelectSet;
 
                 // check if any selection in solidedge.
-                WriteLine($@" Number of items selected: ** {selection.Count} **");
+                Quantity.displaySelectionCount(selection.Count);
                 if (selection.Count != 0)
                 {
 
@@ -39,7 +40,7 @@ namespace PartReplacer
 
                     if (material == "")
                     {
-                        WriteLine("Wrong pick! Try again but this time stick to the choice displayed.");
+                        _ = Warnings.Pick.WrongPick;
                         ReadKey();
                     }
                     else
@@ -56,7 +57,7 @@ namespace PartReplacer
                                 }
                                 catch (InvalidCastException)
                                 {
-                                    WriteLine(@"[!] Item not in the current assembly level.");
+                                    _ = Warnings.Level.WrongLevel;
                                 }
                             }
                         }
@@ -70,7 +71,7 @@ namespace PartReplacer
                 }
                 else
                 {
-                    WriteLine(@"[!] No active selection: Select some items before running the macro again.");
+                    _ = Warnings.Selection.WrongSelection;
                     ReadKey();
                 }
             }
