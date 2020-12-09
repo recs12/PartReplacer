@@ -4,17 +4,45 @@ namespace Helpers
 open System
 open FSharp.Json
 
+module Console =
+
+    open System
+
+    let log =
+        let lockObj = obj()
+        fun color s ->
+            lock lockObj (fun _ ->
+                Console.ForegroundColor <- color
+                printf "%s" s
+                Console.ResetColor())
+
+    let magenta    = log ConsoleColor.Magenta
+    let darkyellow = log ConsoleColor.DarkYellow
+    let green      = log ConsoleColor.Green
+    let cyan       = log ConsoleColor.Cyan
+    let yellow     = log ConsoleColor.Yellow
+    let red        = log ConsoleColor.Red
+    let _default   = log ConsoleColor.White
+
 
 module Blank =
     let line = printfn ""
 
+module Quantity =
+
+    let displaySelectionCount count =
+        Console._default   <| sprintf  @" Number of items selected: "
+        Console.red   <| sprintf  "** %i **" count
+        printfn ""
 
 module User =
+    open Console
 
     let displayDetails author version update =
         printfn "PartReplacer :"
         printfn "====================================================================="
         printfn " --author: %s --version: %s --last-update: %s" author version update
+        printfn ""
         printfn "---------------------------------------------------------------------"
         printfn @" Would you like to replace the fasteners in this assembly? Select the"
         printfn @" items you want to change and press y/[Y] to proceed:"
@@ -37,6 +65,7 @@ module Utilities =
         sx
         |> List.iter printOptionLine
         Blank.line
+        printfn ""
         printfn @" Select material with keys [1,2,3,4,5,6] or press [?]"
         printfn @" if you would like to check the current conversion table."
         0
@@ -96,6 +125,7 @@ module Fasteners =
 
 module Chart =
 
+    open Console
 
     let displayChart jde tab material =
 
@@ -128,10 +158,19 @@ module Chart =
 
         let displaylines line =
             for index, category in line do
-            printfn "%10i|%s  %-16s   ->   %-10s  %s" index (arrow material category) category (findIn chart category) (equality jde (findIn chart category))
+            Console._default   <| sprintf "%10i|" index
+            Console.darkyellow <| sprintf "%s  " (arrow material category)
+            Console._default   <| sprintf "%-16s" category
+            Console._default   <| sprintf " -> "
+            Console.darkyellow      <| sprintf " %-10s" (findIn chart category)
+            Console._default   <| sprintf " %s"  (equality jde (findIn chart category))
+            printfn ""
 
+        Console._default <| sprintf "--- match"
+        Console.green    <| sprintf " %8s" jde
+        Console._default <| sprintf " with ---:"
+        printfn ""
 
-        printfn "--- match %8s with ---" jde
         Blank.line
         let zippedIndexAndCategories = List.zip [1..6] boltCategories
         displaylines zippedIndexAndCategories
@@ -159,62 +198,11 @@ module TableConversion =
 
         let partnumber =
             if (Success && material <> "?") then table.[material]
-            else            ""
+            else ""
 
-        let part = partnumber
+        Chart.displayChart jdeNumber table material
 
-        Chart.displayChart part table material
-
-        part
+        partnumber
 
 
-//module CacheContent =
 
-//    type ProperySets() =
-//        interface SolidEdgeFileProperties.PropertySets with
-//            member this.Application = raise (System.NotImplementedException())
-//            member this.Close() = raise (System.NotImplementedException())
-//            member this.Count = raise (System.NotImplementedException())
-//            member this.CreateCustonPropertySet() = raise (System.NotImplementedException())
-//            member this.GetEnumerator() = raise (System.NotImplementedException())
-//            member this.GetFamilyOfAssemblyMemberNames(fileName, memberCount, memberNames) = raise (System.NotImplementedException())
-//            member this.IsFileFamilyOfAssembly(fileName, bFamilyOfAssembly) = raise (System.NotImplementedException())
-//            member this.IsFileWeldmentAssembly(fileName, bWeldmentAssembly) = raise (System.NotImplementedException())
-//            member this.Item
-//                with get (index) = raise (System.NotImplementedException())
-//            member this.Parent = raise (System.NotImplementedException())
-//            member this.Save() = raise (System.NotImplementedException())
-//            member this.Open(a,b) = raise (System.NotImplementedException())
-
-
-//    type Properties() =
-//        interface SolidEdgeFileProperties.Properties with
-//            member this.Add(name, value) = raise (System.NotImplementedException())
-//            member this.Application = raise (System.NotImplementedException())
-//            member this.Count = raise (System.NotImplementedException())
-//            member this.GetEnumerator() = raise (System.NotImplementedException())
-//            member this.Name = raise (System.NotImplementedException())
-//            member this.Parent = raise (System.NotImplementedException())
-//            member this.PropertyByID
-//                with get (propID) = raise (System.NotImplementedException())
-//            member this.Save() = raise (System.NotImplementedException())
-//            member this.Item
-//                with get (index) = raise (System.NotImplementedException())
-
-
-//    type Property() =
-//        interface SolidEdgeFileProperties.Property with
-//            member this.Item
-//                with get (index) = raise (System.NotImplementedException())
-
-
-//    let ExtractJdeFromCad location =
-
-//        let prop = new ProperySets()
-//        let prop = prop :> SolidEdgeFileProperties.PropertySets
-//        prop.Open(location, true)
-
-//        let pr = new Properties()
-//        let pr = pr :> SolidEdgeFileProperties.Properties
-//        let prr = pr.["Custom"]
-//        prr

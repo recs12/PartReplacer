@@ -8,6 +8,9 @@
   <ItemGroup>
     <Compile Include="Values.fs" />
     <Compile Include="Library.fs" />
+    <Compile Include="Warnings.fs" />
+    <Compile Include="Warnings2.fs" />
+    <Compile Include="Warnings3.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
 
