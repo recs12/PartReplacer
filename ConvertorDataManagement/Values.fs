@@ -1,5 +1,6 @@
-﻿
-module Details
+﻿namespace Helpers
+
+module Details =
 
     let version = "0.0.4"
     let author = "recs"

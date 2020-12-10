@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>CollectionTools</AssemblyName> 
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Values.fs" />
+    <Compile Include="Console.fs" />
+    <Compile Include="Header.fs" />
+    <Compile Include="Quantity.fs" />
+    <Compile Include="Utilities.fs" />
+    <Compile Include="Switcher.fs" />
+    <Compile Include="Fasteners.fs" />
+    <Compile Include="Chart.fs" />
+    <Compile Include="Library.fs" />
+    <Compile Include="WrongPick.fs" />
+    <Compile Include="WrongLevel.fs" />
+    <Compile Include="WrongSelection.fs" />
+    <None Include="Script.fsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Json" Version="0.4.0" />
+    <PackageReference Include="Interop.SolidEdge" Version="220.2.0" />
+    <PackageReference Include="SolidEdge.Community" Version="219.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.0" />
+    <PackageReference Update="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+</Project>
