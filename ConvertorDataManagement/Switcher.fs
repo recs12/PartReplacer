@@ -1,4 +1,4 @@
-﻿namespace Helpers
+﻿namespace Tools
 
 open System
 

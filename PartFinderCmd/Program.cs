@@ -1,6 +1,6 @@
 ﻿using System;
 using static System.Console;
-using Helpers;
+using Tools;
 
 namespace PartReplacer
 {
@@ -39,7 +39,7 @@ namespace PartReplacer
 
                     if (material == "")
                     {
-                        _ = Warnings.Pick.WrongPick;
+                        _ = Pick.WrongPick;
                         ReadKey();
                     }
                     else
@@ -56,7 +56,7 @@ namespace PartReplacer
                                 }
                                 catch (InvalidCastException)
                                 {
-                                    _ = Warnings.Level.WrongLevel;
+                                    _ = Level.WrongLevel;
                                 }
                             }
                         }
@@ -70,7 +70,7 @@ namespace PartReplacer
                 }
                 else
                 {
-                    _ = Warnings.Selection.WrongSelection;
+                    _ = Selection.WrongSelection;
                     ReadKey();
                 }
             }

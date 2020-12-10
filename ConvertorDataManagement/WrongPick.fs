@@ -1,6 +1,4 @@
-﻿namespace Warnings
-
-open Helpers
+﻿namespace Tools
 
 module Pick =
     let WrongPick =

@@ -1,7 +1,6 @@
-﻿namespace Helpers
+﻿namespace Tools
 
 module User =
-
 
     let displayDetails author version update =
         Console.cyan   <| sprintf   "PartReplacer :"

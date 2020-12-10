@@ -1,6 +1,7 @@
-﻿namespace Helpers
+﻿namespace Tools
 
 open FSharp.Json
+open Details
 
 module TableConversion =
 
