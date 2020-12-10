@@ -90,9 +90,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConvertorDataManagement\DataManager.fsproj">
+    <ProjectReference Include="..\ConvertorDataManagement\CollectionTools.fsproj">
       <Project>{d382fc24-c407-4514-899b-aa5acab171e9}</Project>
-      <Name>DataManager</Name>
+      <Name>CollectionTools</Name>
     </ProjectReference>
     <ProjectReference Include="..\LoadPartsFromTeamcenter\LoadPartsFromTC\LoadPartsFromTeamcenter.vbproj">
       <Project>{cc3c7a2b-a742-4ec6-a631-808e54b23aa2}</Project>
