@@ -94,9 +94,9 @@
       <Project>{d382fc24-c407-4514-899b-aa5acab171e9}</Project>
       <Name>CollectionTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LoadPartsFromTeamcenter\LoadPartsFromTC\LoadPartsFromTeamcenter.vbproj">
+    <ProjectReference Include="..\LoadPartsFromTeamcenter\LoadPartsFromTC\Teamcenter.vbproj">
       <Project>{cc3c7a2b-a742-4ec6-a631-808e54b23aa2}</Project>
-      <Name>LoadPartsFromTeamcenter</Name>
+      <Name>Teamcenter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

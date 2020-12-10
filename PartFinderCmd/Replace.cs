@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using LoadPartsFromTeamcenter;
 using static System.Console;
 using Path = System.IO.Path;
+using Tools;
 
 namespace PartReplacer
 {
@@ -11,7 +11,7 @@ namespace PartReplacer
         public static void Part(SolidEdgeAssembly.Occurrence occ, string material)
         {
 
-            Console.WriteLine("...");
+            WriteLine("...");
 
             var partFullName = occ.OccurrenceFileName;
 
@@ -19,34 +19,34 @@ namespace PartReplacer
 
             var jdeOccurrence = Cache.GetJde(partFullName);
 
-            var replacement = Helpers.TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
+            var replacement = TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
 
             if (material == "?") return;  // No conversion, the user just wants check the values in table.
 
 
             // Get details from jde number.
-            var part = Helpers.Fasteners.getReplacementPartDetails(replacement);
+            var part = Tools.Fasteners.getReplacementPartDetails(replacement);
 
             var jde = part.Item1;
             var revision = part.Item2;
             var filename = part.Item3;
 
 
-            if (jde != "" && jde != jdeOccurrence) // review this condition and assure that the part is not null.
+            if (jde != "" && jde != jdeOccurrence)
             {
                 // Load new part in Solid edge cache.
-                AccessTc.LoadPartToCache(jde, revision, filename, cacheDirectory);
+                Tc.LoadPartToCache(jde, revision, filename, cacheDirectory);
 
                 // Replace selected part with new part.
                 var newPart = Path.Combine(cacheDirectory, filename);
                 if (File.Exists(newPart))
                 {
                     occ.Replace(newPart, true);
-                    WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, replacement); //not a good place
+                    WriteLine(@"[+] Replaced: {0} -> {1}", jdeOccurrence, replacement);
                 }
                 else
                 {
-                    Console.WriteLine($@"[!] Replacement part was not loaded in your cache, check if you are connected to Teamcenter.");
+                    WriteLine($@"[!] Replacement part was not loaded in your cache, check if you are connected to Teamcenter.");
                 }
             }
             else
@@ -54,7 +54,7 @@ namespace PartReplacer
                 WriteLine($@"[-] Replacement not performed ({jde})->(=)");
             }
 
-            Console.WriteLine("---");
+            WriteLine("---");
         }
     }
 }

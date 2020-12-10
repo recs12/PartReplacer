@@ -1,4 +1,5 @@
-﻿namespace Helpers
+﻿namespace Tools
+
 open FSharp.Json
 
 module Fasteners =

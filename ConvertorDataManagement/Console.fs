@@ -1,8 +1,8 @@
-﻿namespace Helpers
-
-open System
+﻿namespace Tools
 
 module Console =
+
+    open System
 
     let log =
         let lockObj = obj()

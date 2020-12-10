@@ -3,10 +3,9 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.FileIO
 
 
-Public Class AccessTc
+Public Class Tc
 
     Public Shared Acronym As String = Environment.GetEnvironmentVariable("USERPROFILE").ToLower()
-
 
     Public Shared Function GetUserTcMode()
         Dim application As SolidEdgeFramework.Application
@@ -42,7 +41,6 @@ Public Class AccessTc
 
         ' Get default cache path
         solidEdgeTce.GetPDMCachePath(cachePath)
-
 
         'Download the file to cache
         Dim fileInCache As String

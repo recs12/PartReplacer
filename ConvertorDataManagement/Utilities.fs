@@ -1,6 +1,8 @@
-﻿namespace Helpers
+﻿namespace Tools
 
 module Utilities =
+
+    open Details
 
     let printOptionLine x =
         let number, category = x
