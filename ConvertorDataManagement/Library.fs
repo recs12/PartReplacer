@@ -1,7 +1,7 @@
 ﻿namespace Tools
 
 open FSharp.Json
-open Details
+
 
 module TableConversion =
 
@@ -9,7 +9,7 @@ module TableConversion =
 
     type ConversionChartList = Map<string, Table>
 
-    let getEquivalentByTypeMaterial jdeNumber (material) =
+    let getEquivalentByTypeMaterial jdeNumber material =
 
         let json = System.IO.File.ReadAllText(Details.dataFileTables)
 
@@ -20,10 +20,9 @@ module TableConversion =
 
         let Success, table = getTable deserializedTableData jdeNumber
 
+        //Error: check the table contains partnumber before.
         let partnumber =
-            if (Success && material <> "?") then table.[material]
-            else ""
-
-        Chart.displayChart jdeNumber table material
+            if Success then table.[material]
+            else "ItemUnknown"
 
         partnumber
