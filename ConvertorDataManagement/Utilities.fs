@@ -17,8 +17,6 @@ module Utilities =
         sx
         |> List.iter printOptionLine
         printfn ""
-        Console.cyan <| sprintf @"    [?] check the conversion table for the selected part."
-        printfn ""
         printfn ""
         Console.cyan <| sprintf @"Select material by pressing keys [1,2,3,4,5,6]"
         printfn ""

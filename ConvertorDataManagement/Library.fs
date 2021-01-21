@@ -4,6 +4,7 @@ open FSharp.Json
 
 
 module TableConversion =
+    open Chart
 
     type Table = Map<string, string>
 
@@ -20,9 +21,10 @@ module TableConversion =
 
         let Success, table = getTable deserializedTableData jdeNumber
 
-        //Error: check the table contains partnumber before.
         let partnumber =
             if Success then table.[material]
             else "ItemUnknown"
+
+        Chart.displayChart partnumber table material
 
         partnumber

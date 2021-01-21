@@ -31,7 +31,6 @@ namespace PartReplacer
                 return;
             }
 
-
             // Get details from jde number.
             var part = Tools.Fasteners.getReplacementPartDetails(replacement);
 
