@@ -21,8 +21,15 @@ namespace PartReplacer
 
             var replacement = TableConversion.getEquivalentByTypeMaterial(jdeOccurrence, material);
 
-            if (material == "?") return;  // No conversion, the user just wants check the values in table.
+            WriteLine(replacement);
 
+            if (replacement == "ItemUnknown")
+            {
+                WriteLine("Element not available in the list of items inside file:");
+                WriteLine(@"J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json");
+                WriteLine(@"You can fix it by adding yourself the missing information.");
+                return;
+            }
 
             // Get details from jde number.
             var part = Tools.Fasteners.getReplacementPartDetails(replacement);

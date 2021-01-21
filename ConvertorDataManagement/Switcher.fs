@@ -14,7 +14,6 @@ module Switcher =
             | "4" -> "metric ss-304"
             | "5" -> "imperial ss-316"
             | "6" -> "metric ss-316"
-            | "?" -> "?"
             | _ -> ""
 
         let response:string = Console.ReadLine()
