@@ -80,16 +80,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Replace.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cache\Cache.csproj">
+      <Project>{e2a6e202-ddcb-45ef-82cf-22bd3a5e7c92}</Project>
+      <Name>Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConvertorDataManagement\CollectionTools.fsproj">
       <Project>{d382fc24-c407-4514-899b-aa5acab171e9}</Project>
       <Name>CollectionTools</Name>

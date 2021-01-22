@@ -2,9 +2,9 @@
 
 module Details =
 
-    let version = "0.0.4"
+    let version = "0.0.5"
     let author = "recs"
-    let update = "2020-12-03"
+    let update = "2021-01-22"
 
     let BoltCategories = [ "imperial zinc"; "metric zinc"; "imperial ss-304"; "metric ss-304"; "imperial ss-316"; "metric ss-316" ]
 

@@ -30,4 +30,10 @@ module Fasteners =
 
         let item = searchDetails deserialized jdeNumber
 
-        item
+        match item with
+            | "","","" ->
+                failwithf """Number %s is not an entry in <fasteners.json>, but you can add it yourself in the folder
+                <J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.json>
+                """ jdeNumber
+            | _,_,_ -> item
+

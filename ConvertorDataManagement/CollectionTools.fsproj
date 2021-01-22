@@ -5,6 +5,9 @@
     <AssemblyName>CollectionTools</AssemblyName> 
 
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="Details.fs" />
@@ -19,12 +22,18 @@
     <Compile Include="WrongPick.fs" />
     <Compile Include="WrongLevel.fs" />
     <Compile Include="WrongSelection.fs" />
+    <Compile Include="Exchanger.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FSharp.Json" Version="0.4.0" />
     <PackageReference Include="Interop.SolidEdge" Version="220.2.0" />
     <PackageReference Include="SolidEdge.Community" Version="219.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cache\Cache.csproj" />
+    <ProjectReference Include="..\LoadPartsFromTeamcenter\LoadPartsFromTC\Teamcenter.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
