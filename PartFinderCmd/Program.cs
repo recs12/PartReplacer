@@ -1,6 +1,6 @@
 ﻿using System;
-using static System.Console;
 using Tools;
+using static System.Console;
 
 namespace PartReplacer
 {
@@ -52,11 +52,16 @@ namespace PartReplacer
                                 {
                                     // Loop through items selected in the active assembly.
                                     var occ = (SolidEdgeAssembly.Occurrence)selection.Item(i);
-                                    Replace.Part(occ, material);
+                                    Exchanger.replace(occ, material);
+
                                 }
                                 catch (InvalidCastException)
                                 {
                                     _ = Level.WrongLevel;
+                                }
+                                catch (Exception e)
+                                {
+                                    WriteLine("[!]ERROR: {0}", e);
                                 }
                             }
                         }

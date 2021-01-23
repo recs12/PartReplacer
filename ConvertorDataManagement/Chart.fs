@@ -2,8 +2,7 @@
 
 module Chart =
 
-
-    let displayChart jde tab material =
+    let displayChart jde equivalenceTable material =
 
         let Keys(map: Map<'K,'V>) =
             seq {
@@ -11,7 +10,7 @@ module Chart =
                     yield (key,value)
             } |> List.ofSeq
 
-        let chart = Keys tab
+        let chart = Keys equivalenceTable
 
         let boltCategories = Details.BoltCategories
 

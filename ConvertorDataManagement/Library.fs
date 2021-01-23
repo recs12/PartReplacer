@@ -2,7 +2,6 @@
 
 open FSharp.Json
 
-
 module TableConversion =
     open Chart
 
@@ -21,10 +20,14 @@ module TableConversion =
 
         let Success, table = getTable deserializedTableData jdeNumber
 
-        let partnumber =
+        let partnumber  =
             if Success then table.[material]
-            else "ItemUnknown"
+            else ""
 
-        Chart.displayChart partnumber table material
+        match partnumber with
+            |"" -> failwithf """Number %s is not an entry in <table.json>, but you can add it yourself in the folder
+                             <J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json>
+                             """ jdeNumber
+            |_ -> Chart.displayChart jdeNumber table material
 
         partnumber
