@@ -61,7 +61,7 @@ namespace PartReplacer
                                 }
                                 catch (Exception e)
                                 {
-                                    WriteLine("[!]ERROR: {0}", e);
+                                    WriteLine("[!]ERROR: {0}", e.Message);
                                 }
                             }
                         }
