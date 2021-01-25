@@ -50,7 +50,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -91,10 +92,6 @@
       <Project>{e2a6e202-ddcb-45ef-82cf-22bd3a5e7c92}</Project>
       <Name>Cache</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ConvertorDataManagement\CollectionTools.fsproj">
-      <Project>{d382fc24-c407-4514-899b-aa5acab171e9}</Project>
-      <Name>CollectionTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LoadPartsFromTeamcenter\LoadPartsFromTC\Teamcenter.vbproj">
       <Project>{cc3c7a2b-a742-4ec6-a631-808e54b23aa2}</Project>
       <Name>Teamcenter</Name>
@@ -111,9 +108,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
