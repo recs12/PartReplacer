@@ -1,6 +1,7 @@
 ﻿namespace Tools
 
 open FSharp.Json
+open Model
 
 module Fasteners =
 
@@ -12,7 +13,9 @@ module Fasteners =
 
     type ItemCollection = FastenerDetails list
 
-    let getReplacementPartDetails jdeNumber =
+    let getReplacementPartDetails jde =
+
+        let (Jde jdeNumber) = jde
 
         let json :string = System.IO.File.ReadAllText(Details.dataFileFasteners)
 
@@ -30,10 +33,16 @@ module Fasteners =
 
         let item = searchDetails deserialized jdeNumber
 
+        //exception MissingDataInFastenersJson as string
+
         match item with
             | "","","" ->
-                failwithf """Number %s is not an entry in <fasteners.json>, but you can add it yourself in the folder
-                <J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.json>
+                failwithf """
+MISSING DATA [!]
+Number: %s has not entry in <fasteners.json>. But you can update this file using the excel document
+<J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.xlsx>
+then you need to update the change by clicking on the macro <update.exe>.
+
                 """ jdeNumber
             | _,_,_ -> item
 

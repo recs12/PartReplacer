@@ -1,6 +1,7 @@
 ﻿namespace Tools
 
 open FSharp.Json
+open Model
 
 module TableConversion =
     open Chart
@@ -18,16 +19,20 @@ module TableConversion =
         let getTable (collectionsChart: ConversionChartList) jdeNum =
             collectionsChart.TryGetValue jdeNum
 
-        let Success, table = getTable deserializedTableData jdeNumber
+        let (Jde jdeNum) = jdeNumber
+        let Success, table = getTable deserializedTableData jdeNum
 
         let partnumber  =
             if Success then table.[material]
             else ""
 
-        match partnumber with
-            |"" -> failwithf """Number %s is not an entry in <table.json>, but you can add it yourself in the folder
-                             <J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.json>
-                             """ jdeNumber
-            |_ -> Chart.displayChart jdeNumber table material
+        match jdeNum with
+            |"" -> failwithf """
+MISSING DATA [!]
+Number: %s has not entry in <table.json>. But you can update this file using the excel document
+<J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\table.xlsx>
+then you need to update the change by clicking on the macro <update.exe>.""" jdeNum
+            | _ -> Chart.displayChart jdeNum table material
 
+        let partnumber = Jde jdeNum
         partnumber

@@ -1,6 +1,5 @@
 ﻿open System
 open Tools
-open SolidEdgeFramework
 
 
 
@@ -22,9 +21,10 @@ let main argv =
             let selection = assemblyDocument.SelectSet
             let count = selection.Count
             Quantity.displaySelectionCount(selection.Count)
+
             match count with
             |0 ->
-                printfn "Exit 0"
+                printfn """[!] No active selection: Select some items before running the macro again."""
                 0
             |_ ->
                 Utilities.displayOptions |> ignore
@@ -42,7 +42,8 @@ let main argv =
                         try
                             Exchanger.replace occ material |> ignore
                         with
-                            | :? System.Exception as e -> printfn "%s" e.Message |> ignore
+                        | :? System.Exception as e ->
+                            printfn "%s" e.Message |> ignore
                     0
     finally
         System.Console.ReadKey() |> ignore

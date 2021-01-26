@@ -1,14 +1,16 @@
 ﻿namespace Tools
 
-open PartReplacer
 open Teamcenter.PartReplacer
 open System.IO
+open PartReplacer
+open Model
 
 module Exchanger =
 
     let replace occ material =
 
         let oc = occ :> SolidEdgeAssembly.Occurrence
+
         let partFullName = oc.OccurrenceFileName
 
         printfn "..."
@@ -17,7 +19,9 @@ module Exchanger =
 
         let jdeOccurrence = Cache.GetJde(partFullName)
 
-        let replacement = TableConversion.getEquivalentByTypeMaterial jdeOccurrence material
+        let occurrence : Jde = Jde jdeOccurrence
+
+        let replacement = TableConversion.getEquivalentByTypeMaterial occurrence material
 
         let (jde, revision, filename) = Tools.Fasteners.getReplacementPartDetails(replacement)
 
@@ -35,7 +39,8 @@ module Exchanger =
         match File.Exists(newPartPath) with
             | true ->
                 oc.Replace(newPartPath, true)
-                printfn "[+] Replaced: %s -> %s" jdeOccurrence replacement
+                let (Jde jdeNum ) = replacement
+                printfn "[+] Replaced: %s -> %s" jdeOccurrence jdeNum
             | false ->
                 printfn "[!] Replacement part was not loaded in your cache, maybe check if you are really connected to Teamcenter."
 

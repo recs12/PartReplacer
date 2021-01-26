@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Icon.ico" />
+    <Compile Include="Model.fs" />
     <Compile Include="Console.fs" />
     <Compile Include="Details.fs" />
     <Compile Include="Chart.fs" />
@@ -20,10 +20,8 @@
     <Compile Include="Switcher.fs" />
     <Compile Include="Utilities.fs" />
     <Compile Include="Exchanger.fs" />
-    <Compile Include="WrongLevel.fs" />
-    <Compile Include="WrongPick.fs" />
-    <Compile Include="WrongSelection.fs" />
     <Compile Include="Program.fs" />
+    <Content Include="Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

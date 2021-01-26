@@ -25,8 +25,11 @@ namespace PartReplacer
                 // Get a reference to the Title property by name
                 property = (SolidEdgeFileProperties.Property)properties["JDELITM"];
 
+
+
                 // TODO: Print the list of available option.
                 return property.Value.ToString();
+
             }
             catch (Exception ex)
             {
