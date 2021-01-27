@@ -1,5 +1,5 @@
 ﻿open System
-open Tools
+open Replacer
 
 
 
@@ -7,7 +7,13 @@ open Tools
 [<EntryPoint>]
 let main argv =
     try
-        User.displayDetails Details.author Details.version Details.update
+        printfn    "PartReplacer :"
+        printfn  "====================================================================="
+        printfn  " --author: %s --version: %s --last-update: %s" Details.author Details.version Details.update
+        printfn  "---------------------------------------------------------------------"
+        printfn  @"Would you like to replace the fasteners in this assembly?"
+        printfn  @"Select the items you want to change and press y/[Y] to proceed:"
+
         let response = Console.ReadLine().ToLower()
 
         match response with
@@ -17,10 +23,14 @@ let main argv =
 
         |_ ->
             let application = SolidEdgeCommunity.SolidEdgeUtils.Connect(true, true)
+
             let assemblyDocument = application.ActiveDocument :?> SolidEdgeAssembly.AssemblyDocument
+
             let selection = assemblyDocument.SelectSet
+
             let count = selection.Count
-            Quantity.displaySelectionCount(selection.Count)
+
+            printfn "Number of items selected: ** %i **" count
 
             match count with
             |0 ->
@@ -28,12 +38,12 @@ let main argv =
                 0
             |_ ->
                 Utilities.displayOptions |> ignore
+
                 let material = Switcher.getUserChoice
 
                 match material with
                 |"" ->
-                    Console.red   <| sprintf  "[!] Wrong pick! Try again but this time stick to the choice displayed."
-                    printfn "" |> ignore
+                    printfn  "[!] Wrong pick! Try again but this time stick to the choice displayed."
                     0
 
                 |_ ->

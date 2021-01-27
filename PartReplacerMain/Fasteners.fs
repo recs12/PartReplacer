@@ -1,4 +1,4 @@
-﻿namespace Tools
+﻿namespace Replacer
 
 open FSharp.Json
 open Model
@@ -33,7 +33,6 @@ module Fasteners =
 
         let item = searchDetails deserialized jdeNumber
 
-        //exception MissingDataInFastenersJson as string
 
         match item with
             | "","","" ->
@@ -44,5 +43,6 @@ Number: %s has not entry in <fasteners.json>. But you can update this file using
 then you need to update the change by clicking on the macro <update.exe>.
 
                 """ jdeNumber
+
             | _,_,_ -> item
 

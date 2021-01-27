@@ -1,10 +1,9 @@
-﻿namespace Tools
+﻿namespace Replacer
 
 open FSharp.Json
 open Model
 
 module TableConversion =
-    open Chart
 
     type Table = Map<string, string>
 

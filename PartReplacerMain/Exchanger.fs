@@ -1,9 +1,9 @@
-﻿namespace Tools
+﻿namespace Replacer
 
-open Teamcenter.PartReplacer
-open System.IO
 open PartReplacer
+open System.IO
 open Model
+open Teamcenter.Replacer
 
 module Exchanger =
 
@@ -11,28 +11,26 @@ module Exchanger =
 
         let oc = occ :> SolidEdgeAssembly.Occurrence
 
-        let partFullName = oc.OccurrenceFileName
+        let partFullName : string = oc.OccurrenceFileName
 
         printfn "..."
 
-        let cacheDirectory =  System.IO.Path.GetDirectoryName(partFullName) + @"\"
+        let cacheDirectory : string =  System.IO.Path.GetDirectoryName(partFullName) + @"\"
 
-        let jdeOccurrence = Cache.GetJde(partFullName)
+        let jdeOccurrence : string = Cache.GetJde(partFullName)
 
         let occurrence : Jde = Jde jdeOccurrence
 
-        let replacement = TableConversion.getEquivalentByTypeMaterial occurrence material
+        let replacement : Jde = TableConversion.getEquivalentByTypeMaterial occurrence material
 
-        let (jde, revision, filename) = Tools.Fasteners.getReplacementPartDetails(replacement)
+        let (jde, revision, filename) = Replacer.Fasteners.getReplacementPartDetails(replacement)
 
-        let load (jde: string) (revision: string) (filename: string) cacheDirectory =
+        let loadFromTC (jde: string) (revision: string) (filename: string) cacheDirectory =
             match jde, revision, filename with
-                | "", "", "" ->
-                    failwithf "part not available in <fasteners.json>"
-                | _, _, _ ->
-                    Tc.LoadPartToCache(jde, revision, filename, cacheDirectory)
+                | "", "", "" -> failwithf "part not available in <fasteners.json>"
+                | _, _, _ -> Tc.LoadPartToCache(jde, revision, filename, cacheDirectory)
 
-        load jde revision filename |> ignore
+        loadFromTC jde revision filename |> ignore
 
         let newPartPath = Path.Combine(cacheDirectory, filename)
 

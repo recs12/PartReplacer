@@ -1,4 +1,4 @@
-﻿namespace Tools
+﻿namespace Replacer
 
 module Console =
 
@@ -19,3 +19,9 @@ module Console =
     let yellow     = log ConsoleColor.Yellow
     let red        = log ConsoleColor.Red
     let _default   = log ConsoleColor.White
+
+    let printDefault message =
+        _default   <| sprintf message
+    
+    let printMagenta message =
+        magenta   <| sprintf message

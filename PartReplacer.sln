@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Teamcenter", "LoadPartsFromTeamcenter\LoadPartsFromTC\Teamcenter.vbproj", "{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cache", "Cache\Cache.csproj", "{E2A6E202-DDCB-45EF-82CF-22BD3A5E7C92}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PartReplacer", "PartReplacerMain\PartReplacer.fsproj", "{3593D273-6DD8-4BFF-85B7-26AA0EB21D06}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Teamcenter", "Teamcenter\TC\Teamcenter.vbproj", "{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2A6E202-DDCB-45EF-82CF-22BD3A5E7C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2A6E202-DDCB-45EF-82CF-22BD3A5E7C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2A6E202-DDCB-45EF-82CF-22BD3A5E7C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{3593D273-6DD8-4BFF-85B7-26AA0EB21D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3593D273-6DD8-4BFF-85B7-26AA0EB21D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3593D273-6DD8-4BFF-85B7-26AA0EB21D06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3C7A2B-A742-4EC6-A631-808E54B23AA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
