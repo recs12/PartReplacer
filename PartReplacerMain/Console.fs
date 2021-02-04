@@ -20,8 +20,15 @@ module Console =
     let red        = log ConsoleColor.Red
     let _default   = log ConsoleColor.White
 
-    let printDefault message =
-        _default   <| sprintf message
-    
-    let printMagenta message =
-        magenta   <| sprintf message
+
+    (*Implement this function to decluster the coloring in the tool*)
+
+    let printInWhite message =
+        log ConsoleColor.White   <| sprintf message
+
+    let printfnInWhite message  =
+        log ConsoleColor.White   <| sprintf message
+        printfn ""
+
+    let printInRed message =
+        log ConsoleColor.White   <| sprintf message

@@ -2,7 +2,6 @@
 
 open PartReplacer
 open System.IO
-open Model
 open Teamcenter.Replacer
 
 module Exchanger =
@@ -23,16 +22,26 @@ module Exchanger =
 
         let replacement : Jde = TableConversion.getEquivalentByTypeMaterial occurrence material
 
-        let (jde, revision, filename) = Replacer.Fasteners.getReplacementPartDetails(replacement)
+        let partDetails : DetailsCad = Replacer.Fasteners.getReplacementPartDetails(replacement)
 
-        let loadFromTC (jde: string) (revision: string) (filename: string) cacheDirectory =
-            match jde, revision, filename with
+
+        let loadFromTC partdetails =
+            let (Jde jde) = partDetails.Jde
+            let (Rev rev) = partDetails.Rev
+            let (CadFileName filename) = partDetails.CadFileName
+            match jde, rev, filename with
                 | "", "", "" -> failwithf "part not available in <fasteners.json>"
-                | _, _, _ -> Tc.LoadPartToCache(jde, revision, filename, cacheDirectory)
+                | _, _, _ -> Tc.LoadPartToCache(jde, rev, filename, cacheDirectory)
 
-        loadFromTC jde revision filename |> ignore
+        (*Load the replacement part in the solidedge user cache*)
+        loadFromTC partDetails |> ignore
 
-        let newPartPath = Path.Combine(cacheDirectory, filename)
+        let getPathNewCadFile cad directory =
+            let (CadFileName filename) = cad.CadFileName
+            let newPartPath = Path.Combine(directory, filename)
+            newPartPath
+
+        let newPartPath = getPathNewCadFile partDetails cacheDirectory
 
         match File.Exists(newPartPath) with
             | true ->

@@ -2,7 +2,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net462</TargetFramework>
-    <Win32Resource></Win32Resource> 
+    <Win32Resource></Win32Resource>
+    <PackageIcon>Fastener.png</PackageIcon> 
 
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,11 +21,8 @@
     <Compile Include="Utilities.fs" />
     <Compile Include="Exchanger.fs" />
     <Compile Include="Program.fs" />
-    <Content Include="Icon.ico" />
-    <None Include="playground.fsx" />
+    <Content Include="..\Fastener.png" />
   </ItemGroup>
-
-  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="FSharp.Json" Version="0.4.0" />

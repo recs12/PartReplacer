@@ -17,5 +17,6 @@ module Switcher =
             | _ -> ""
 
         let response:string = Console.ReadLine()
-        let material =  switcher response
+        let material:string = switcher response
+
         material

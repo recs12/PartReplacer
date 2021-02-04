@@ -1,7 +1,6 @@
 ﻿namespace Replacer
 
 open FSharp.Json
-open Model
 
 module TableConversion =
 

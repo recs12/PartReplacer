@@ -1,7 +1,8 @@
 ﻿namespace Replacer
-
+open System
 open FSharp.Json
-open Model
+
+exception MissingFastenersDataError of string
 
 module Fasteners =
 
@@ -34,15 +35,19 @@ module Fasteners =
         let item = searchDetails deserialized jdeNumber
 
 
+
         match item with
-            | "","","" ->
-                failwithf """
-MISSING DATA [!]
-Number: %s has not entry in <fasteners.json>. But you can update this file using the excel document
-<J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.xlsx>
-then you need to update the change by clicking on the macro <update.exe>.
+            | "","","" -> failwithf """MISSING DATA [!]
+                Number: %s has not entry in <fasteners.json>. But you can update this file using the excel document
+                <J:\PTCR\Users\RECS\Macros\ReplacerFasteners\dataFastenersJson\fasteners.xlsx>
+                then you need to update the change by clicking on the macro <update.exe>.""" jdeNumber |>ignore
+            | _,_,_ -> item |>ignore
 
-                """ jdeNumber
+        let item' = item
+        let a', b', c' = item'
+        let a = Jde a'
+        let b = Rev b'
+        let c = CadFileName c'
 
-            | _,_,_ -> item
-
+        let abc = {Jde = a; Rev = b; CadFileName = c}
+        abc
