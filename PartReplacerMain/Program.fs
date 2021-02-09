@@ -57,17 +57,15 @@ let main argv =
                                     Exchanger.replace occ material |> ignore
                                 with
                                 | _ as e
-                                    -> printfn "%s" e.Message |> ignore
+                                    -> printfn "[!] %s" e.Message |> ignore
 
                             | :? SolidEdgeAssembly.SubOccurrence
                                 ->
                                 let mutable occ = selection.Item(i) :?> SolidEdgeAssembly.SubOccurrence
-                                printfn "%A : SubOccurrence! You can only select an item within the editable assembly." occ.Name
+                                printfn "[!] %A : SubOccurrence : You can only select an item within the editable assembly." occ.Name
                             | _
-                                -> printfn "Wrong selection! You made an invalid selection."
+                                -> printfn "[!] invalid selection."
                         0
-
-
 
     finally
         System.Console.ReadKey() |> ignore
