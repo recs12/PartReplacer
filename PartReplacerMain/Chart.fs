@@ -1,4 +1,4 @@
-﻿namespace Tools
+﻿namespace Replacer
 
 module Chart =
 
@@ -33,14 +33,20 @@ module Chart =
 
         let displaylines line =
             for index, category in line do
-            Console._default   <| sprintf "%10i|" index
-            Console.darkyellow <| sprintf "%s  " (arrow material category)
-            Console._default   <| sprintf "%-16s" category
-            Console._default   <| sprintf " -> "
-            Console.darkyellow      <| sprintf " %-10s" (findIn chart category)
-            Console._default   <| sprintf " %s"  (equality jde (findIn chart category))
-            printfn ""
+                (*
+                "%10i|%s  %-16s ->  %-10s %s"
+                *)
+                Console._default   <| sprintf "%10i|" index
+                Console.darkyellow <| sprintf "%s  " (arrow material category)
+                Console._default   <| sprintf "%-16s" category
+                Console._default   <| sprintf " -> "
+                Console.darkyellow      <| sprintf " %-10s" (findIn chart category)
+                Console._default   <| sprintf " %s"  (equality jde (findIn chart category))
+                printfn ""
 
+        (*
+        "--- match  %8s  with ---:"
+        *)
         Console._default <| sprintf "--- match"
         Console.green    <| sprintf " %8s" jde
         Console._default <| sprintf " with ---:"

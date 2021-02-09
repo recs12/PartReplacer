@@ -1,4 +1,4 @@
-﻿namespace Tools
+﻿namespace Replacer
 
 module Console =
 
@@ -19,3 +19,16 @@ module Console =
     let yellow     = log ConsoleColor.Yellow
     let red        = log ConsoleColor.Red
     let _default   = log ConsoleColor.White
+
+
+    (*Implement this function to decluster the coloring in the tool*)
+
+    let printInWhite message =
+        log ConsoleColor.White   <| sprintf message
+
+    let printfnInWhite message  =
+        log ConsoleColor.White   <| sprintf message
+        printfn ""
+
+    let printInRed message =
+        log ConsoleColor.White   <| sprintf message

@@ -2,7 +2,7 @@
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.FileIO
 
-Namespace PartReplacer
+Namespace Replacer
 
 
 

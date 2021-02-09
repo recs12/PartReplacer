@@ -1,10 +1,10 @@
-﻿namespace Tools
+﻿namespace Replacer
 
 open System
 
 module Switcher =
 
-    let getUserChoice : string=
+    let getUserChoice : string =
         (*Get the user to choice the material for the part replacement.*)
         let switcher (choice: string) : string=
             match choice with
@@ -17,5 +17,6 @@ module Switcher =
             | _ -> ""
 
         let response:string = Console.ReadLine()
-        let material =  switcher response
+        let material:string = switcher response
+
         material
